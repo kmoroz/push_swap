@@ -56,12 +56,11 @@ void	put_num_on_stack(char *str, t_node **head)
 	}
 	else
 	{
-		tail = (*head)->next;
-		(*head)->next = new_node;
-		new_node->prev = *head;
-		new_node->next = tail;
-		tail->prev = new_node;
-		*head = new_node;
+		tail = (*head)->prev;
+		new_node->next = *head;
+		(*head)->prev = new_node;
+		new_node->prev = tail;
+		tail->next = new_node;
 	}
 }
 
@@ -111,4 +110,5 @@ int	main(int argc, char **argv)
 	stack_a.size = 0;
 	validate_args(argc, argv);
 	build_stack(argc, argv, &stack_a);
+	sort_stack(&stack_a, &stack_b);
 }

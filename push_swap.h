@@ -25,5 +25,6 @@ typedef struct s_stack
 }				t_stack;
 
 void	ft_error(void);
+void	sort_stack(t_stack *stack_a, t_stack *stack_b);
 
 #endif

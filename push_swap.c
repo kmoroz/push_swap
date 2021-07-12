@@ -39,13 +39,11 @@ void	verify_input(const char *str)
 	}
 }
 
-void	put_num_on_stack(char *str, t_node **head)
+void	put_num_on_stack(int num, t_node **head)
 {
-	int		num;
 	t_node	*tail;
 	t_node	*new_node;
 
-	num = ft_atol(str);
 	new_node = ft_lstnew(num);
 	if (!*head)
 	{
@@ -84,6 +82,7 @@ void	build_stack(int argc, char **argv, t_stack *stack_a)
 	int		i;
 	int		j;
 	char	**str;
+	int		num;
 
 	i = 1;
 	while (i < argc)
@@ -93,7 +92,8 @@ void	build_stack(int argc, char **argv, t_stack *stack_a)
 		while (j >= 0)
 		{
 			verify_input(str[j]);
-			put_num_on_stack(str[j], &stack_a->node);
+			num = ft_atol(str[j]);
+			put_num_on_stack(num, &stack_a->node);
 			j--;
 		}
 		i++;
@@ -107,6 +107,14 @@ void	make_list_linear(t_node *head)
 
 	tail = head->prev;
 	tail->next = NULL;
+}
+
+void	make_list_circular(t_node *head)
+{
+	t_node	*tail;
+
+	tail = head->prev;
+	tail->next = head;
 }
 
 void	check_dupes(t_node *head)
@@ -131,6 +139,7 @@ void	check_dupes(t_node *head)
 			ft_error();
 		temp = temp->next;
 	}
+	make_list_circular(head);
 }
 
 int	main(int argc, char **argv)
@@ -139,7 +148,9 @@ int	main(int argc, char **argv)
 	t_stack	stack_b;
 
 	stack_a.node = NULL;
+	stack_b.node = NULL;
 	stack_a.size = 0;
+	stack_b.size = 0;
 	validate_args(argc, argv);
 	build_stack(argc, argv, &stack_a);
 	check_dupes(stack_a.node);

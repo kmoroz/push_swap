@@ -26,7 +26,7 @@ void	verify_input(const char *str)
 	count = 0;
 	while (str[count])
 	{
-		if (!ft_isdigit(str[count]))
+		if (!ft_isdigit(str[count]) && str[count] != '-')
 			ft_error();
 		count++;
 	}

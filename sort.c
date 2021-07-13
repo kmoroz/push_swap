@@ -2,19 +2,30 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-void	pb_rule(t_stack *stack_a, t_stack *stack_b, t_node **head)
+void	pb_rule(t_stack *stack_a, t_stack *stack_b, t_node **head, int num)
 {
 	t_node	*current;
 	t_node	*tail;
 
-	put_num_on_stack((*head)->number, &stack_b->node);
-	stack_a->size--;
-	stack_b->size++;
 	current = *head;
 	tail = (*head)->prev;
-	*head = (*head)->next;
-	tail->next = *head;
-	(*head)->prev = tail;
+	if ((*head)->number == num)
+	{
+		put_num_on_stack((*head)->number, &stack_b->node);
+		*head = (*head)->next;
+		tail->next = *head;
+		(*head)->prev = tail;
+	}
+	else
+	{
+		while (current->number != num)
+			current = current->next;
+		put_num_on_stack(current->number, &stack_b->node);
+		current->prev->next = current->next;
+		current->next->prev = current->prev;
+	}
+	stack_a->size--;
+	stack_b->size++;
 	free(current);
 	write(1, "pb\n", 4);
 }
@@ -51,7 +62,7 @@ void	ra_rule(t_stack *stack_a)
 	write(1, "ra\n", 4);
 }
 
-void	sort_three(t_stack *stack_a, t_stack *stack_b)
+void	sort_three(t_stack *stack_a)
 {
 	t_node	*node_a;
 
@@ -79,19 +90,19 @@ void	sort_three(t_stack *stack_a, t_stack *stack_b)
 		rra_rule(stack_a);
 }
 
-void	find_pivot(t_node **head, int *pivot, int size)
+void	find_pivot(t_node **head, int *pivot)
 {
-	int		index;
-	t_node	*temp;
+	t_node	*fast;
+	t_node	*slow;
 
-	index = size / 2;
-	temp = *head;
-	while (index)
+	fast = (*head)->next;
+	slow = *head;
+	while (fast != *head && fast->next != *head)
 	{
-		index--;
-		temp = temp->next;
+		fast = fast->next->next;
+		slow = slow->next;
 	}
-	*pivot = temp->number;
+	*pivot = slow->number;
 }
 
 void	traverse_a(t_stack *stack_a, t_stack *stack_b, int pivot, t_node **head)
@@ -101,30 +112,49 @@ void	traverse_a(t_stack *stack_a, t_stack *stack_b, int pivot, t_node **head)
 
 	temp = *head;
 	tail = (*head)->prev;
-	while (temp != tail)
+	while (temp)
 	{
 		if (temp->number < pivot)
 		{
-			pb_rule(stack_a, stack_b, head);
+			pb_rule(stack_a, stack_b, head, temp->number);
 			temp = *head;
+			tail = (*head)->prev;
+			if (temp == tail)
+				break ;
 		}
 		else
+		{
+			if (temp == tail)
+				break ;
 			temp = temp->next;
+		}
 	}
 }
+
+// void	add_partition(t_stack *stack_a)
+// {
+// 	if (stack_a->size == 1)
+// 		stack_a->node->is_sorted = 1;
+// 	if (stack_a->size == 3)
+// 		sort_three(stack_a);
+// }
 
 void	quicksort(t_stack *stack_a, t_stack *stack_b)
 {
 	int	pivot;
 
-	find_pivot(&stack_a->node, &pivot, stack_a->size);
-	traverse_a(stack_a, stack_b, pivot, &stack_a->node);
+	while (stack_a->size > 3)
+	{
+		find_pivot(&stack_a->node, &pivot);
+		traverse_a(stack_a, stack_b, pivot, &stack_a->node);
+	}
+	//add_partition(stack_a);
 }
 
 void	sort_stack(t_stack *stack_a, t_stack *stack_b)
 {
 	if (stack_a->size == 3)
-		sort_three(stack_a, stack_b);
+		sort_three(stack_a);
 	if (stack_a->size > 3)
 		quicksort(stack_a, stack_b);
 }

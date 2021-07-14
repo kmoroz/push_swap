@@ -2,6 +2,30 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+void	put_num_on_stack_reversed(int num, t_node **head)
+{
+	t_node	*tail;
+	t_node	*new_node;
+
+	new_node = ft_lstnew(num);
+	if (!*head)
+	{
+		*head = new_node;
+		tail = new_node;
+		tail->next = *head;
+		tail->prev = *head;
+	}
+	else
+	{
+		tail = (*head)->prev;
+		new_node->next = *head;
+		new_node->prev = tail;
+		(*head)->prev = new_node;
+		*head = new_node;
+		tail->next = *head;
+	}
+}
+
 void	pb_rule(t_stack *stack_a, t_stack *stack_b, t_node **head, int num)
 {
 	t_node	*current;
@@ -9,25 +33,31 @@ void	pb_rule(t_stack *stack_a, t_stack *stack_b, t_node **head, int num)
 
 	current = *head;
 	tail = (*head)->prev;
-	if ((*head)->number == num)
-	{
-		put_num_on_stack((*head)->number, &stack_b->node);
-		*head = (*head)->next;
-		tail->next = *head;
-		(*head)->prev = tail;
-	}
-	else
-	{
-		while (current->number != num)
-			current = current->next;
-		put_num_on_stack(current->number, &stack_b->node);
-		current->prev->next = current->next;
-		current->next->prev = current->prev;
-	}
+	put_num_on_stack_reversed((*head)->number, &stack_b->node);
+	*head = (*head)->next;
+	tail->next = *head;
+	(*head)->prev = tail;
 	stack_a->size--;
 	stack_b->size++;
 	free(current);
 	write(1, "pb\n", 4);
+}
+
+void	pa_rule(t_stack *stack_a, t_stack *stack_b, t_node **head, int num)
+{
+	t_node	*current;
+	t_node	*tail;
+
+	current = *head;
+	tail = (*head)->prev;
+	put_num_on_stack_reversed((*head)->number, &stack_a->node);
+	*head = (*head)->next;
+	tail->next = *head;
+	(*head)->prev = tail;
+	stack_a->size++;
+	stack_b->size--;
+	free(current);
+	write(1, "pa\n", 4);
 }
 
 void	sa_rule(t_stack *stack_a)
@@ -51,43 +81,40 @@ void	rra_rule(t_stack *stack_a)
 	write(1, "rra\n", 5);
 }
 
-void	ra_rule(t_stack *stack_a)
+void	ra_rule(t_node **head)
 {
-	int	temp;
-
-	temp = stack_a->node->number;
-	stack_a->node->number = stack_a->node->next->number;
-	stack_a->node->next->number = stack_a->node->prev->number;
-	stack_a->node->prev->number = temp;
+	if (*head)
+		*head = (*head)->next;
 	write(1, "ra\n", 4);
 }
 
-void	sort_three(t_stack *stack_a)
+void	sort_three(t_stack *stack)
 {
-	t_node	*node_a;
+	t_node	*node;
 
-	node_a = stack_a->node;
-	if (node_a->number > node_a->next->number
-		&& node_a->number < node_a->prev->number)
-		sa_rule(stack_a);
-	if (node_a->number > node_a->next->number
-		&& node_a->next->number > node_a->prev->number)
+	node = stack->node;
+	if (node->number > node->next->number
+		&& node->number < node->prev->number)
+		sa_rule(stack);
+	else if (node->number > node->next->number
+		&& node->next->number > node->prev->number)
 	{
-		sa_rule(stack_a);
-		rra_rule(stack_a);
+		sa_rule(stack);
+		rra_rule(stack);
 	}
-	if (node_a->number > node_a->next->number
-		&& node_a->next->number < node_a->prev->number)
-		ra_rule(stack_a);
-	if (node_a->number < node_a->next->number
-		&& node_a->next->number > node_a->prev->number)
+	else if (node->number > node->next->number
+		&& node->next->number < node->prev->number)
+		ra_rule(&stack->node);
+	else if (node->number < node->next->number
+		&& node->next->number > node->prev->number
+		&& node->number < node->prev->number)
 	{
-		sa_rule(stack_a);
-		ra_rule(stack_a);
+		sa_rule(stack);
+		ra_rule(&stack->node);
 	}
-	if (node_a->number < node_a->next->number
-		&& node_a->next->number > node_a->prev->number)
-		rra_rule(stack_a);
+	else if (node->number < node->next->number
+		&& node->next->number > node->prev->number)
+		rra_rule(stack);
 }
 
 void	find_pivot(t_node **head, int *pivot)
@@ -126,18 +153,50 @@ void	traverse_a(t_stack *stack_a, t_stack *stack_b, int pivot, t_node **head)
 		{
 			if (temp == tail)
 				break ;
-			temp = temp->next;
+			ra_rule(head);
+			temp = *head;
 		}
 	}
 }
 
-// void	add_partition(t_stack *stack_a)
-// {
-// 	if (stack_a->size == 1)
-// 		stack_a->node->is_sorted = 1;
-// 	if (stack_a->size == 3)
-// 		sort_three(stack_a);
-// }
+void	traverse_b(t_stack *stack_a, t_stack *stack_b, int pivot, t_node **head)
+{
+	t_node	*temp;
+	t_node	*tail;
+
+	temp = *head;
+	tail = (*head)->prev;
+	while (temp)
+	{
+		if (temp->number > pivot)
+		{
+			pa_rule(stack_a, stack_b, head, temp->number);
+			temp = *head;
+			tail = (*head)->prev;
+			if (temp == tail)
+				break ;
+		}
+		else
+		{
+			if (temp == tail)
+				break ;
+			ra_rule(head);
+			temp = *head;
+		}
+	}
+}
+
+void	add_partition(t_node **head)
+{
+	t_node	*temp;
+
+	temp = *head;
+	while (!temp->is_sorted)
+	{
+		temp->is_sorted = 1;
+		temp = temp->next;
+	}
+}
 
 void	quicksort(t_stack *stack_a, t_stack *stack_b)
 {
@@ -148,7 +207,17 @@ void	quicksort(t_stack *stack_a, t_stack *stack_b)
 		find_pivot(&stack_a->node, &pivot);
 		traverse_a(stack_a, stack_b, pivot, &stack_a->node);
 	}
-	//add_partition(stack_a);
+	if (stack_a->size == 3 || stack_a->size == 2)
+		sort_three(stack_a);
+	add_partition(&stack_a->node);
+	while (stack_b->size > 3)
+	{
+		find_pivot(&stack_b->node, &pivot);
+		traverse_b(stack_a, stack_b, pivot, &stack_b->node);
+	}
+	add_partition(&stack_a->node);
+	if (stack_b->size == 3 || stack_b->size == 2)
+		sort_three(stack_b);
 }
 
 void	sort_stack(t_stack *stack_a, t_stack *stack_b)

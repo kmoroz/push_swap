@@ -26,6 +26,7 @@ typedef struct s_stack
 
 void	ft_error(void);
 void	sort_stack(t_stack *stack_a, t_stack *stack_b);
-void	put_num_on_stack(int num, t_node **head);
+void	make_list_linear(t_node *head);
+void	make_list_circular(t_node *head);
 
 #endif

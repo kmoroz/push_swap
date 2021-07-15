@@ -210,14 +210,28 @@ void	quicksort(t_stack *stack_a, t_stack *stack_b)
 	if (stack_a->size == 3 || stack_a->size == 2)
 		sort_three(stack_a);
 	add_partition(&stack_a->node);
-	while (stack_b->size > 3)
+	while (stack_b->size > 1)
 	{
 		find_pivot(&stack_b->node, &pivot);
 		traverse_b(stack_a, stack_b, pivot, &stack_b->node);
 	}
-	add_partition(&stack_a->node);
-	if (stack_b->size == 3 || stack_b->size == 2)
-		sort_three(stack_b);
+	pa_rule(stack_a, stack_b, &stack_b->node, stack_b->node->number);
+}
+
+int is_sorted(t_node *stack_a)
+{
+	t_node	*temp;
+
+	if (!stack_a)
+		return (0);
+	temp = stack_a;
+	while (temp->next != stack_a)
+	{
+		if (temp->number > temp->next->number)
+			return (0);
+		temp = temp->next;
+	}
+	return (1);
 }
 
 void	sort_stack(t_stack *stack_a, t_stack *stack_b)
@@ -225,5 +239,9 @@ void	sort_stack(t_stack *stack_a, t_stack *stack_b)
 	if (stack_a->size == 3)
 		sort_three(stack_a);
 	if (stack_a->size > 3)
+	{
+		if (is_sorted(stack_a->node))
+			exit(0);
 		quicksort(stack_a, stack_b);
+	}	
 }

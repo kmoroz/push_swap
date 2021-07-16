@@ -250,6 +250,15 @@ void	traverse_b(t_stack *stack_a, t_stack *stack_b, int pivot, t_node **head)
 	}
 }
 
+void	sort_two(t_stack *stack)
+{
+	t_node	**head;
+
+	*head = stack->node;
+	if ((*head)->number > (*head)->next->number)
+		sa_rule(stack);
+}
+
 void	quicksort(t_stack *stack_a, t_stack *stack_b)
 {
 	int	pivot;
@@ -260,8 +269,10 @@ void	quicksort(t_stack *stack_a, t_stack *stack_b)
 		find_pivot(stack_a->size, &stack_a->node, &pivot);
 		traverse_a(stack_a, stack_b, pivot, &stack_a->node);
 	}
-	if (stack_a->size == 3 || stack_a->size == 2)
+	if (stack_a->size == 3)
 		sort_three(stack_a);
+	// if (stack_a->size == 2)
+	// 	sort_two(stack_a);
 	while (stack_b->size > 1)
 	{
 		find_pivot(stack_b->size, &stack_b->node, &pivot);

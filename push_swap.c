@@ -149,6 +149,8 @@ int	main(int argc, char **argv)
 
 	stack_a.node = NULL;
 	stack_b.node = NULL;
+	stack_a.partition = NULL;
+	stack_b.partition = NULL;
 	stack_a.size = 0;
 	stack_b.size = 0;
 	validate_args(argc, argv);

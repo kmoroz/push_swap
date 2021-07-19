@@ -22,6 +22,7 @@ typedef struct s_stack
 {
 	t_node		*node;
 	int			size;
+	t_node		*partition;
 }				t_stack;
 
 void	ft_error(void);

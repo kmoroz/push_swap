@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/10 11:43:49 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/07/07 13:58:04 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/07/19 16:25:32 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef struct s_node
 	int				number;
 	struct s_node	*next;
 	struct s_node	*prev;
+	int				is_sorted;
 }	t_node;
 
 char			**ft_split(char const *str, char dlm);

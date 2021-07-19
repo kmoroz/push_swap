@@ -47,16 +47,18 @@ void	pa_rule(t_stack *stack_a, t_stack *stack_b, t_node **head, int num)
 {
 	t_node	*current;
 	t_node	*tail;
+	t_node	*next_head;
 
 	current = *head;
+	next_head = (*head)->next;
 	tail = (*head)->prev;
 	put_num_on_stack_reversed((*head)->number, &stack_a->node);
-	*head = (*head)->next;
+	free(current);
+	*head = next_head;
 	tail->next = *head;
 	(*head)->prev = tail;
 	stack_a->size++;
 	stack_b->size--;
-	free(current);
 	write(1, "pa\n", 4);
 }
 
@@ -133,7 +135,7 @@ void	pick_median_of_three(int *pivot, int head_num, int middle, int tail)
 		*pivot = middle;
 }
 
-void	find_pivot(int size, t_node **head, int *pivot)
+void	find_pivot(int size, t_node **head, int *pivot, t_node **partition)
 {
 	t_node	*fast;
 	t_node	*slow;
@@ -145,10 +147,21 @@ void	find_pivot(int size, t_node **head, int *pivot)
 	slow = *head;
 	tail = (*head)->prev->number;
 	head_num = (*head)->number;
-	while (fast != *head && fast->next != *head)
+	if (!*partition)
 	{
-		fast = fast->next->next;
-		slow = slow->next;
+		while (fast != *head && fast->next != *head)
+		{
+			fast = fast->next->next;
+			slow = slow->next;
+		}
+	}
+	else
+	{
+		while (fast != *partition && fast->next != *partition)
+		{
+			fast = fast->next->next;
+			slow = slow->next;
+		}	
 	}
 	middle = slow->number;
 	if (size == 2)
@@ -203,7 +216,7 @@ void	traverse_a(t_stack *stack_a, t_stack *stack_b, int pivot, t_node **head)
 
 	temp = *head;
 	tail = (*head)->prev;
-	while (temp)
+	while (temp && !temp->is_sorted)
 	{
 		if (temp->number < pivot)
 		{
@@ -259,6 +272,19 @@ void	sort_two(t_stack *stack)
 		sa_rule(stack);
 }
 
+void	add_partition(t_stack *stack)
+{
+	t_node	*temp;
+
+	temp = stack->node;
+	stack->partition = stack->node;
+	while (!temp->is_sorted)
+	{
+		temp->is_sorted = 1;
+		temp = temp->next;
+	}
+}
+
 void	quicksort(t_stack *stack_a, t_stack *stack_b)
 {
 	int	pivot;
@@ -266,19 +292,24 @@ void	quicksort(t_stack *stack_a, t_stack *stack_b)
 	pivot = 0;
 	while (stack_a->size > 3)
 	{
-		find_pivot(stack_a->size, &stack_a->node, &pivot);
+		find_pivot(stack_a->size, &stack_a->node, &pivot, &stack_a->partition);
 		traverse_a(stack_a, stack_b, pivot, &stack_a->node);
 	}
 	if (stack_a->size == 3)
+	{
 		sort_three(stack_a);
+		add_partition(stack_a);
+	}
 	// if (stack_a->size == 2)
 	// 	sort_two(stack_a);
 	while (stack_b->size > 1)
 	{
-		find_pivot(stack_b->size, &stack_b->node, &pivot);
+		find_pivot(stack_b->size, &stack_b->node, &pivot, &stack_b->partition);
 		traverse_b(stack_a, stack_b, pivot, &stack_b->node);
 	}
 	pa_rule(stack_a, stack_b, &stack_b->node, stack_b->node->number);
+	stack_b->node = 0;
+	quicksort(stack_a, stack_b);
 }
 
 int	is_sorted(t_node *stack_a)

@@ -92,30 +92,34 @@ void	ra_rule(t_node **head)
 
 void	sort_three(t_stack *stack)
 {
-	t_node	*node;
+	t_node	*first;
+	t_node	*second;
+	t_node	*third;
 
-	node = stack->node;
-	if (node->number > node->next->number
-		&& node->number < node->prev->number)
+	first = stack->node;
+	second = first->next;
+	third = second->next;
+	if (first->number > second->number
+		&& first->number < third->number)
 		sa_rule(stack);
-	else if (node->number > node->next->number
-		&& node->next->number > node->prev->number)
+	else if (first->number > second->number
+		&& second->number > third->number)
 	{
 		sa_rule(stack);
 		rra_rule(stack);
 	}
-	else if (node->number > node->next->number
-		&& node->next->number < node->prev->number)
+	else if (first->number > second->number
+		&& second->number < third->number)
 		ra_rule(&stack->node);
-	else if (node->number < node->next->number
-		&& node->next->number > node->prev->number
-		&& node->number < node->prev->number)
+	else if (first->number < second->number
+		&& second->number > third->number
+		&& first->number < third->number)
 	{
 		sa_rule(stack);
 		ra_rule(&stack->node);
 	}
-	else if (node->number < node->next->number
-		&& node->next->number > node->prev->number)
+	else if (first->number < second->number
+		&& second->number > third->number)
 		rra_rule(stack);
 }
 
@@ -216,7 +220,7 @@ void	traverse_a(t_stack *stack_a, t_stack *stack_b, int pivot, t_node **head)
 
 	temp = *head;
 	tail = (*head)->prev;
-	while (temp && !temp->is_sorted)
+	while (temp)
 	{
 		if (temp->number < pivot)
 		{
@@ -281,8 +285,25 @@ void	add_partition(t_stack *stack)
 	while (!temp->is_sorted)
 	{
 		temp->is_sorted = 1;
+		stack->size--;
 		temp = temp->next;
 	}
+}
+
+int	is_sorted(t_node *stack_a)
+{
+	t_node	*temp;
+
+	if (!stack_a)
+		return (0);
+	temp = stack_a;
+	while (temp->next != stack_a)
+	{
+		if (temp->number > temp->next->number)
+			return (0);
+		temp = temp->next;
+	}
+	return (1);
 }
 
 void	quicksort(t_stack *stack_a, t_stack *stack_b)
@@ -309,23 +330,8 @@ void	quicksort(t_stack *stack_a, t_stack *stack_b)
 	}
 	pa_rule(stack_a, stack_b, &stack_b->node, stack_b->node->number);
 	stack_b->node = 0;
-	quicksort(stack_a, stack_b);
-}
-
-int	is_sorted(t_node *stack_a)
-{
-	t_node	*temp;
-
-	if (!stack_a)
-		return (0);
-	temp = stack_a;
-	while (temp->next != stack_a)
-	{
-		if (temp->number > temp->next->number)
-			return (0);
-		temp = temp->next;
-	}
-	return (1);
+	if (!is_sorted(stack_a->node))
+		quicksort(stack_a, stack_b);
 }
 
 void	print_stack(t_node **head)

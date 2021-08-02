@@ -83,18 +83,20 @@ void	build_stack(int argc, char **argv, t_stack *stack_a)
 	int		j;
 	char	**str;
 	int		num;
+	int		array_size;
 
 	i = 1;
 	while (i < argc)
 	{
 		str = ft_split(argv[i], ' ');
-		j = calculate_array_size(str) - 1;
-		while (j >= 0)
+		array_size = calculate_array_size(str);
+		j = 0;
+		while (j < array_size)
 		{
 			verify_input(str[j]);
 			num = ft_atol(str[j]);
 			put_num_on_stack(num, &stack_a->node);
-			j--;
+			j++;
 		}
 		i++;
 	}

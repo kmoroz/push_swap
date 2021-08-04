@@ -159,4 +159,5 @@ int	main(int argc, char **argv)
 	build_stack(argc, argv, &stack_a);
 	check_dupes(stack_a.node);
 	sort_stack(&stack_a, &stack_b);
+	print_stack(&stack_a.node);
 }

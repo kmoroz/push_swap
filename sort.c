@@ -72,14 +72,10 @@ void	sa_rule(t_stack *stack_a)
 	write(1, "sa\n", 4);
 }
 
-void	rra_rule(t_stack *stack_a)
+void	rra_rule(t_node **head)
 {
-	int	temp;
-
-	temp = stack_a->node->number;
-	stack_a->node->number = stack_a->node->prev->number;
-	stack_a->node->prev->number = stack_a->node->next->number;
-	stack_a->node->next->number = temp;
+	if (*head)
+		*head = (*head)->prev;
 	write(1, "rra\n", 5);
 }
 
@@ -106,7 +102,7 @@ void	sort_three(t_stack *stack)
 		&& second->number > third->number)
 	{
 		sa_rule(stack);
-		rra_rule(stack);
+		rra_rule(&stack->node);
 	}
 	else if (first->number > second->number
 		&& second->number < third->number)
@@ -120,7 +116,7 @@ void	sort_three(t_stack *stack)
 	}
 	else if (first->number < second->number
 		&& second->number > third->number)
-		rra_rule(stack);
+		rra_rule(&stack->node);
 }
 
 void	pick_median_of_three(int *pivot, int head_num, int middle, int tail)
@@ -254,7 +250,7 @@ void	traverse_b(t_stack *stack_a, t_stack *stack_b, int pivot, t_node **head)
 			pa_rule(stack_a, stack_b, head, temp->number);
 			temp = *head;
 			tail = (*head)->prev;
-			if (!vals_more_than_pivot_left(head, pivot, stack_a->size))
+			if (!vals_more_than_pivot_left(head, pivot, stack_b->size))
 				break ;
 		}
 		else
@@ -273,47 +269,13 @@ void	sort_two(t_node	**head, t_stack *stack)
 		sa_rule(stack);
 }
 
-<<<<<<< HEAD
 void	add_partition(t_stack *stack)
-=======
-int	is_sorted(t_node *stack_a)
 {
 	t_node	*temp;
 
-	if (!stack_a)
-		return (0);
-	temp = stack_a;
-	while (temp->next != stack_a)
-	{
-		if (temp->number > temp->next->number)
-			return (0);
-		temp = temp->next;
-	}
-	return (1);
-}
-
-void	quicksort(t_stack *stack_a, t_stack *stack_b)
->>>>>>> master
-{
-	t_node	*temp;
-
-<<<<<<< HEAD
 	temp = stack->node;
 	stack->partition = stack->node;
 	while (!temp->is_sorted)
-=======
-	pivot = 0;
-	while (stack_a->size > 3)
-	{
-		find_pivot(stack_a->size, &stack_a->node, &pivot);
-		traverse_a(stack_a, stack_b, pivot, &stack_a->node);
-	}
-	if (stack_a->size == 3)
-		sort_three(stack_a);
-	if (stack_a->size == 2)
-		sort_two(&stack_a->node, stack_a);
-	while (stack_b->size > 1)
->>>>>>> master
 	{
 		temp->is_sorted = 1;
 		stack->size--;
@@ -321,7 +283,6 @@ void	quicksort(t_stack *stack_a, t_stack *stack_b)
 	}
 }
 
-<<<<<<< HEAD
 int	is_sorted(t_node *stack_a)
 {
 	t_node	*temp;
@@ -338,12 +299,34 @@ int	is_sorted(t_node *stack_a)
 	return (1);
 }
 
+void put_sorted_to_bottom(t_node **head, t_stack *stack_a, int size)
+{
+	t_node	*temp;
+	int		count;
+
+	temp = *head;
+	count = 0;
+	while (temp->is_sorted && temp->next != *head)
+	{
+		count++;
+		temp = temp->next;
+	}
+	if (count)
+	{
+		while (size)
+		{
+			rra_rule(head);
+			size--;
+		}
+	}
+}
+
 void	quicksort(t_stack *stack_a, t_stack *stack_b)
 {
 	int	pivot;
 
 	pivot = 0;
-	while (stack_a->size > 3)
+	while (stack_a->size > 2)
 	{
 		find_pivot(stack_a->size, &stack_a->node, &pivot, &stack_a->partition);
 		traverse_a(stack_a, stack_b, pivot, &stack_a->node);
@@ -353,34 +336,29 @@ void	quicksort(t_stack *stack_a, t_stack *stack_b)
 		sort_three(stack_a);
 		add_partition(stack_a);
 	}
-	// if (stack_a->size == 2)
-	// 	sort_two(stack_a);
-	while (stack_b->size > 1)
+	if (stack_a->size == 2)
+	{
+		sort_two(&stack_a->node, stack_a);
+		put_sorted_to_bottom(&stack_a->node, stack_a, stack_a->size);
+		add_partition(stack_a);
+	}
+	if (stack_a->size == 1)
+	{
+		put_sorted_to_bottom(&stack_a->node, stack_a, stack_a->size);
+		add_partition(stack_a);
+	}
+	if (stack_b->size == 1)
+	{
+		pa_rule(stack_a, stack_b, &stack_b->node, 1);
+		stack_b->node = NULL;
+		return ;
+	}
+	while (stack_a->size < 1 && stack_b->size > 1)
 	{
 		find_pivot(stack_b->size, &stack_b->node, &pivot, &stack_b->partition);
 		traverse_b(stack_a, stack_b, pivot, &stack_b->node);
 	}
-	pa_rule(stack_a, stack_b, &stack_b->node, stack_b->node->number);
-	stack_b->node = 0;
-	if (!is_sorted(stack_a->node))
-		quicksort(stack_a, stack_b);
-}
-
-=======
->>>>>>> master
-void	print_stack(t_node **head)
-{
-	t_node	*tail;
-	t_node	*temp;
-
-	tail = (*head)->prev;
-	tail->next = NULL;
-	temp = *head;
-	while (temp)
-	{
-		printf("%d\n", temp->number);
-		temp = temp->next;
-	}
+	quicksort(stack_a, stack_b);
 }
 
 void	sort_stack(t_stack *stack_a, t_stack *stack_b)
@@ -393,5 +371,4 @@ void	sort_stack(t_stack *stack_a, t_stack *stack_b)
 			exit(0);
 		quicksort(stack_a, stack_b);
 	}
-	print_stack(&stack_a->node);
 }

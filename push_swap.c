@@ -144,6 +144,21 @@ void	check_dupes(t_node *head)
 	make_list_circular(head);
 }
 
+void	print_stack(t_node **head)
+{
+	t_node	*tail;
+	t_node	*temp;
+
+	tail = (*head)->prev;
+	tail->next = NULL;
+	temp = *head;
+	while (temp)
+	{
+		printf("%d\n", temp->number);
+		temp = temp->next;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_stack	stack_a;

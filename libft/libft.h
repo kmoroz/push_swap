@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/10 11:43:49 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/07/19 16:25:32 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/08/10 16:50:17 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,8 @@ size_t			ft_strlcpy(char *dest, const char *src, size_t size);
 t_node			*ft_lstnew(int content);
 int				ft_isdigit(int argument);
 long int		ft_atol(const char *str);
+char			*ft_strdup(const char *src);
+int				ft_strncmp(const void *ptr1, const void *ptr2, size_t num);
+void			ft_error(void);
 
 #endif

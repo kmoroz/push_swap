@@ -6,15 +6,16 @@
 #    By: ksmorozo <ksmorozo@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/11/10 19:37:56 by ksmorozo      #+#    #+#                  #
-#    Updated: 2021/07/07 13:57:57 by ksmorozo      ########   odam.nl          #
+#    Updated: 2021/08/10 16:49:59 by ksmorozo      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 SRC = ft_split.c ft_strlen.c \
 ft_strlcpy.c ft_strtrim.c \
-ft_lstnew.c \
-ft_isdigit.c ft_atol.c
+ft_lstnew.c ft_strdup.c \
+ft_isdigit.c ft_atol.c \
+ft_error.c ft_strncmp.c
 
 OBJ = $(SRC:.c=.o)
 HEADER = libft.h

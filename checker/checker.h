@@ -19,4 +19,6 @@ typedef enum e_operation
 	RRR = 11,
 }	t_operation;
 
+void	sa_rule(t_stack *stack_a);
+
 #endif

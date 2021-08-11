@@ -117,7 +117,7 @@ void	print_stack(t_node **head)
 
 void record_instruction(char *line, t_node **head)
 {
-	printf("%ld\n", ft_strlen(line));
+	//printf("%ld\n", ft_strlen(line));
 	if (!ft_strncmp("sa", line, ft_strlen(line)))
 		put_num_on_stack(SA, head);
 	else if (!ft_strncmp("sb", line, ft_strlen(line)))
@@ -144,34 +144,72 @@ void record_instruction(char *line, t_node **head)
 		ft_error();
 }
 
-void	get_instructions(void)
+void	get_instructions(t_node	**instructions)
 {
 	int		status;
 	char	*line;
-	t_node	*instructions;
 
 	status = 1;
-	instructions = NULL;
 	while (status > 0)
 	{
 		status = get_next_line(STDIN_FILENO, &line);
-		printf("%s\n", line);
-		record_instruction(line, &instructions);
+		//printf("%s\n", line);
+		record_instruction(line, instructions);
 		free(line);
 	}
+}
+
+void	apply_instructions(t_node **head, t_stack *stack_a)
+{
+	t_node	*tail;
+	t_node	*temp;
+
+	tail = (*head)->prev;
+	tail->next = NULL;
+	temp = *head;
+	while (temp)
+	{
+		if (temp->number == SA)
+			sa_rule(stack_a);
+		temp = temp->next;
+	}
+}
+
+int	is_sorted(t_node *stack_a)
+{
+	t_node	*temp;
+
+	if (!stack_a)
+		return (0);
+	temp = stack_a;
+	while (temp->next != stack_a)
+	{
+		if (temp->number > temp->next->number)
+			return (0);
+		temp = temp->next;
+	}
+	return (1);
 }
 
 int	main(int argc, char **argv)
 {
 	t_stack	stack_a;
+	t_node	*instructions;
 
 	stack_a.node = NULL;
 	stack_a.size = 0;
+	instructions = NULL;
 	if (argc > 1)
 	{
 		build_stack(argc, argv, &stack_a);
-		get_instructions();
+		get_instructions(&instructions);
+		apply_instructions(&instructions, &stack_a);
 		print_stack(&stack_a.node);
+		if (is_sorted(stack_a.node))
+		{
+			write(1, "OK\n", 4);
+			exit(0);
+		}
 	}
 	else
 		exit(0);

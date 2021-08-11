@@ -154,19 +154,20 @@ void	get_instructions(t_node	**instructions)
 	{
 		status = get_next_line(STDIN_FILENO, &line);
 		//printf("%s\n", line);
-		record_instruction(line, instructions);
+		if (*line)
+			record_instruction(line, instructions);
 		free(line);
 	}
 }
 
-void	apply_instructions(t_node **head, t_stack *stack_a)
+void	apply_instructions(t_node *head, t_stack *stack_a)
 {
 	t_node	*tail;
 	t_node	*temp;
 
-	tail = (*head)->prev;
-	tail->next = NULL;
-	temp = *head;
+	tail = head->prev;
+	tail->next = NULL;		
+	temp = head;
 	while (temp)
 	{
 		if (temp->number == SA)
@@ -203,11 +204,11 @@ int	main(int argc, char **argv)
 	{
 		build_stack(argc, argv, &stack_a);
 		get_instructions(&instructions);
-		apply_instructions(&instructions, &stack_a);
-		print_stack(&stack_a.node);
+		apply_instructions(instructions, &stack_a);
 		if (is_sorted(stack_a.node))
 		{
 			write(1, "OK\n", 4);
+			print_stack(&stack_a.node);
 			exit(0);
 		}
 	}

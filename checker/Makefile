@@ -1,5 +1,6 @@
 NAME = checker
-SRC = checker.c ../get_next_line/get_next_line.c
+SRC = checker.c ../get_next_line/get_next_line.c \
+instructions.c
 
 OBJ = $(SRC:.c=.o)
 

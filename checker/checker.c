@@ -208,6 +208,47 @@ int	is_sorted(t_node *stack_a)
 	return (1);
 }
 
+void	make_list_linear(t_node *head)
+{
+	t_node	*tail;
+
+	tail = head->prev;
+	tail->next = NULL;
+}
+
+void	make_list_circular(t_node *head)
+{
+	t_node	*tail;
+
+	tail = head->prev;
+	tail->next = head;
+}
+
+void	check_dupes(t_node *head)
+{
+	int		count;
+	t_node	*temp;
+	t_node	*temp_2;
+
+	make_list_linear(head);
+	temp = head;
+	while (temp)
+	{
+		count = 0;
+		temp_2 = head;
+		while (temp_2)
+		{
+			if (temp->number == temp_2->number)
+				count++;
+			temp_2 = temp_2->next;
+		}
+		if (count > 1)
+			ft_error();
+		temp = temp->next;
+	}
+	make_list_circular(head);
+}
+
 int	main(int argc, char **argv)
 {
 	t_stack	stack_a;
@@ -222,9 +263,10 @@ int	main(int argc, char **argv)
 	if (argc > 1)
 	{
 		build_stack(argc, argv, &stack_a);
+		check_dupes(stack_a.node);
 		get_instructions(&instructions);
 		apply_instructions(instructions, &stack_a, &stack_b);
-		if (is_sorted(stack_a.node))
+		if (is_sorted(stack_a.node) && !stack_b.size)
 		{
 			write(1, "OK\n", 4);
 			print_stack(&stack_a.node);

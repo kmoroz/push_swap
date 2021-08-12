@@ -173,9 +173,9 @@ void	apply_instructions(t_node *instructions_head, t_stack *stack_a, t_stack *st
 		if (temp->number == SA)
 			sa_rule(stack_a);
 		if (temp->number == SB)
-			printf("placeholder");
+			sb_rule(stack_b);
 		if (temp->number == SS)
-			printf("placeholder");
+			ss_rule(stack_a, stack_b);
 		if (temp->number == PA)
 			pa_rule(stack_a, stack_b, &stack_b->node);
 		if (temp->number == PB)
@@ -183,11 +183,13 @@ void	apply_instructions(t_node *instructions_head, t_stack *stack_a, t_stack *st
 		if (temp->number == RA)
 			ra_rule(&stack_a->node);
 		if (temp->number == RB)
-			printf("placeholder");
+			rb_rule(&stack_b->node);
 		if (temp->number == RR)
-			printf("placeholder");
+			rr_rule(&stack_a->node, &stack_b->node);
 		if (temp->number == RRA)
 			rra_rule(&stack_a->node);
+		if (temp->number == RRB)
+			rrb_rule(&stack_b->node);
 		temp = temp->next;
 	}
 }

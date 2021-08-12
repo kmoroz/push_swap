@@ -160,18 +160,34 @@ void	get_instructions(t_node	**instructions)
 	}
 }
 
-void	apply_instructions(t_node *head, t_stack *stack_a)
+void	apply_instructions(t_node *instructions_head, t_stack *stack_a, t_stack *stack_b)
 {
 	t_node	*tail;
 	t_node	*temp;
 
-	tail = head->prev;
+	tail = instructions_head->prev;
 	tail->next = NULL;		
-	temp = head;
+	temp = instructions_head;
 	while (temp)
 	{
 		if (temp->number == SA)
 			sa_rule(stack_a);
+		if (temp->number == SB)
+			printf("placeholder");
+		if (temp->number == SS)
+			printf("placeholder");
+		if (temp->number == PA)
+			pa_rule(stack_a, stack_b, &stack_b->node);
+		if (temp->number == PB)
+			pb_rule(stack_a, stack_b, &stack_a->node);
+		if (temp->number == RA)
+			ra_rule(&stack_a->node);
+		if (temp->number == RB)
+			printf("placeholder");
+		if (temp->number == RR)
+			printf("placeholder");
+		if (temp->number == RRA)
+			rra_rule(&stack_a->node);
 		temp = temp->next;
 	}
 }
@@ -196,21 +212,26 @@ int	main(int argc, char **argv)
 {
 	t_stack	stack_a;
 	t_node	*instructions;
+	t_stack	stack_b;
 
 	stack_a.node = NULL;
 	stack_a.size = 0;
+	stack_b.node = NULL;
+	stack_b.size = 0;
 	instructions = NULL;
 	if (argc > 1)
 	{
 		build_stack(argc, argv, &stack_a);
 		get_instructions(&instructions);
-		apply_instructions(instructions, &stack_a);
+		apply_instructions(instructions, &stack_a, &stack_b);
 		if (is_sorted(stack_a.node))
 		{
 			write(1, "OK\n", 4);
 			print_stack(&stack_a.node);
 			exit(0);
 		}
+		else
+			write(1, "KO\n", 4);
 	}
 	else
 		exit(0);

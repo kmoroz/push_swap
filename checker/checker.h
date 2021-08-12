@@ -20,5 +20,9 @@ typedef enum e_operation
 }	t_operation;
 
 void	sa_rule(t_stack *stack_a);
+void	pa_rule(t_stack *stack_a, t_stack *stack_b, t_node **head);
+void	pb_rule(t_stack *stack_a, t_stack *stack_b, t_node **head);
+void	ra_rule(t_node **head);
+void	rra_rule(t_node **head);
 
 #endif

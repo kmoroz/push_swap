@@ -1,5 +1,5 @@
 NAME = push_swap
-SRC = push_swap.c ft_error.c \
+SRC = push_swap.c \
 sort.c
 
 OBJ = $(SRC:.c=.o)

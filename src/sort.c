@@ -86,6 +86,13 @@ void	ra_rule(t_node **head)
 	write(1, "ra\n", 4);
 }
 
+void	rb_rule(t_node **head)
+{
+	if (*head)
+		*head = (*head)->next;
+	write(1, "rb\n", 4);
+}
+
 void	sort_three(t_stack *stack)
 {
 	t_node	*first;
@@ -257,7 +264,7 @@ void	traverse_b(t_stack *stack_a, t_stack *stack_b, int pivot, t_node **head)
 		{
 			if (temp == tail)
 				break ;
-			ra_rule(head); //should be rb_rule
+			rb_rule(head); //should be rb_rule
 			temp = *head;
 		}
 	}

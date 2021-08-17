@@ -6,11 +6,11 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/24 12:16:42 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/08/02 12:03:28 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/08/17 15:35:51 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
+#include "../src/push_swap.h"
 #include <stdlib.h>
 
 t_node	*ft_lstnew(int content)

@@ -275,7 +275,10 @@ int	main(int argc, char **argv)
 			exit(0);
 		}
 		else
+		{
 			write(1, "KO\n", 4);
+			print_stack(&stack_a.node);
+		}
 	}
 	else
 		exit(0);

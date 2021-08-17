@@ -1,31 +1,40 @@
-NAME = push_swap
-SRC = push_swap.c \
-sort.c
+PUSH_SWAP = push_swap
+CHECKER =  checker
+SRC_PS = src/push_swap.c \
+src/sort.c
+SRC_CHECKER = src/checker.c \
+src/instructions.c get_next_line/get_next_line.c \
 
-OBJ = $(SRC:.c=.o)
+OBJ_PS = $(SRC_PS:.c=.o)
+OBJ_CHECKER = $(SRC_CHECKER:.c=.o)
 
-HEADER = push_swap.h
+HEADER_PS = src/push_swap.h
+HEADER_CHECKER = src/checker.h
 
 LIBFT_DIR = libft/
 LIBFT = libft.a
 
 CFLAGS = -g #-Wall -Werror -Wextra
 
-all: $(NAME)
+all: $(PUSH_SWAP) $(CHECKER)
 
-$(NAME): $(OBJ)
+$(PUSH_SWAP): $(OBJ_PS)
 	make -C $(LIBFT_DIR)
-	gcc $(CFLAGS) $(OBJ) $(LIBFT_DIR)$(LIBFT) -o $(NAME)
+	gcc $(CFLAGS) $(OBJ_PS) $(LIBFT_DIR)$(LIBFT) -o $(PUSH_SWAP)
 
-%.o: %.c $(HEADER)
+$(CHECKER): $(OBJ_CHECKER)
+	make -C $(LIBFT_DIR)
+	gcc $(CFLAGS) $(OBJ_CHECKER) $(LIBFT_DIR)$(LIBFT) -o $(CHECKER)
+
+%.o: %.c $(HEADER_PS) $(HEADER_CHECKER)
 	gcc $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ)
+	rm -f $(OBJ_PS) $(OBJ_CHECKER) 
 	make clean -C $(LIBFT_DIR)
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(PUSH_SWAP) $(CHECKER)
 	rm -f $(LIBFT) $(LIBFT_DIR)$(LIBFT)
 
 re: fclean all

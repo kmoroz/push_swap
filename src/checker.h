@@ -2,7 +2,7 @@
 # define CHECKER_H
 
 # include "../libft/libft.h"
-# include "../push_swap.h"
+# include "push_swap.h"
 
 typedef enum e_operation
 {

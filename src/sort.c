@@ -40,7 +40,7 @@ void	pb_rule(t_stack *stack_a, t_stack *stack_b, t_node **head, int num)
 	stack_a->size--;
 	stack_b->size++;
 	free(current);
-	write(1, "pb\n", 4);
+	write(1, "pb\n", 3);
 }
 
 void	pa_rule(t_stack *stack_a, t_stack *stack_b, t_node **head, int num)
@@ -59,7 +59,7 @@ void	pa_rule(t_stack *stack_a, t_stack *stack_b, t_node **head, int num)
 	(*head)->prev = tail;
 	stack_a->size++;
 	stack_b->size--;
-	write(1, "pa\n", 4);
+	write(1, "pa\n", 3);
 }
 
 void	sa_rule(t_stack *stack_a)
@@ -69,28 +69,28 @@ void	sa_rule(t_stack *stack_a)
 	temp = stack_a->node->number;
 	stack_a->node->number = stack_a->node->next->number;
 	stack_a->node->next->number = temp;
-	write(1, "sa\n", 4);
+	write(1, "sa\n", 3);
 }
 
 void	rra_rule(t_node **head)
 {
 	if (*head)
 		*head = (*head)->prev;
-	write(1, "rra\n", 5);
+	write(1, "rra\n", 4);
 }
 
 void	ra_rule(t_node **head)
 {
 	if (*head)
 		*head = (*head)->next;
-	write(1, "ra\n", 4);
+	write(1, "ra\n", 3);
 }
 
 void	rb_rule(t_node **head)
 {
 	if (*head)
 		*head = (*head)->next;
-	write(1, "rb\n", 4);
+	write(1, "rb\n", 3);
 }
 
 void	sort_three(t_stack *stack)

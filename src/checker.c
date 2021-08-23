@@ -270,13 +270,13 @@ int	main(int argc, char **argv)
 		apply_instructions(instructions, &stack_a, &stack_b);
 		if (is_sorted(stack_a.node) && !stack_b.size)
 		{
-			write(1, "OK\n", 4);
+			write(1, "OK\n", 3);
 			print_stack(&stack_a.node);
 			exit(0);
 		}
 		else
 		{
-			write(1, "KO\n", 4);
+			write(1, "KO\n", 3);
 			print_stack(&stack_a.node);
 		}
 	}

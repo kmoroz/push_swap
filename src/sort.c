@@ -27,7 +27,7 @@ void	put_num_on_stack_reversed(int num, t_node **head)
 	}
 }
 
-void	pb_rule(t_stack *stack_a, t_stack *stack_b, t_node **head, int num)
+void	pb_rule(t_stack *stack_a, t_stack *stack_b, t_node **head)
 {
 	t_node	*current;
 	t_node	*tail;
@@ -44,7 +44,7 @@ void	pb_rule(t_stack *stack_a, t_stack *stack_b, t_node **head, int num)
 	write(1, "pb\n", 3);
 }
 
-void	pa_rule(t_stack *stack_a, t_stack *stack_b, t_node **head, int num)
+void	pa_rule(t_stack *stack_a, t_stack *stack_b, t_node **head)
 {
 	t_node	*current;
 	t_node	*tail;
@@ -78,6 +78,13 @@ void	rra_rule(t_node **head)
 	if (*head)
 		*head = (*head)->prev;
 	write(1, "rra\n", 4);
+}
+
+void	rrb_rule(t_node **head)
+{
+	if (*head)
+		*head = (*head)->prev;
+	write(1, "rrb\n", 4);
 }
 
 void	ra_rule(t_node **head)
@@ -228,7 +235,7 @@ void	traverse_a(t_stack *stack_a, t_stack *stack_b, int pivot, t_node **head)
 	{
 		if (temp->number < pivot)
 		{
-			pb_rule(stack_a, stack_b, head, temp->number);
+			pb_rule(stack_a, stack_b, head);
 			temp = *head;
 			tail = (*head)->prev;
 			if (!vals_less_than_pivot_left(head, pivot, stack_a->size))
@@ -239,33 +246,6 @@ void	traverse_a(t_stack *stack_a, t_stack *stack_b, int pivot, t_node **head)
 			if (temp == tail)
 				break ;
 			ra_rule(head);
-			temp = *head;
-		}
-	}
-}
-
-void	traverse_b(t_stack *stack_a, t_stack *stack_b, int pivot, t_node **head)
-{
-	t_node	*temp;
-	t_node	*tail;
-
-	temp = *head;
-	tail = (*head)->prev;
-	while (temp)
-	{
-		if (temp->number > pivot)
-		{
-			pa_rule(stack_a, stack_b, head, temp->number);
-			temp = *head;
-			tail = (*head)->prev;
-			if (!vals_more_than_pivot_left(head, pivot, stack_b->size))
-				break ;
-		}
-		else
-		{
-			if (temp == tail)
-				break ;
-			rb_rule(head); //should be rb_rule
 			temp = *head;
 		}
 	}
@@ -312,15 +292,15 @@ int	find_stack_min(t_stack *stack_a, t_node **head_a)
 	return (min);
 }
 
-int	find_stack_max(t_stack *stack_a, t_node **head_a)
+int	find_stack_max(t_stack *stack, t_node **head)
 {
 	int		max;
 	int		i;
 	t_node	*temp;
 
 	max = INT_MIN;
-	i = stack_a->size;
-	temp = *head_a;
+	i = stack->size;
+	temp = *head;
 	while (i)
 	{
 		if (max < temp->number)
@@ -415,7 +395,7 @@ void move_closest_to_top(t_stack *stack_a, t_node **head_a)
 	t_node	*temp;
 
 	count_from_top = count_ra_moves(stack_a, head_a);
-	count_from_bottom = count_rra_moves(stack_a, head_a);	
+	count_from_bottom = count_rra_moves(stack_a, head_a);
 	if (count_from_top > count_from_bottom)
 	{
 		while (count_from_bottom)
@@ -442,10 +422,52 @@ int	move_to_top(t_stack *stack_a, t_stack *stack_b, int chunk_limit)
 	while (i)
 	{
 		move_closest_to_top(stack_a, &stack_a->node);
-		pb_rule(stack_a, stack_b, &stack_a->node, stack_a->size);
+		pb_rule(stack_a, stack_b, &stack_a->node);
 		i--;
 	}
 	return (1);
+}
+
+int is_in_first_half(t_stack *stack, t_node **head)
+{
+	int		max;
+	int		i;
+	t_node	*temp;
+
+	max = find_stack_max(stack, head);
+	temp = *head;
+	i = stack->size / 2;
+	while (i)
+	{
+		if (temp->number == max)
+			return (1);
+		i--;
+		temp = temp->next;
+	}
+	return (0);
+}
+
+void	traverse_b(t_stack *stack_a, t_stack *stack_b, t_node **head_b)
+{
+	int		max;
+	int		i;
+	t_node	*temp;
+	int		rotation_num;
+
+	max = find_stack_max(stack_b, head_b);
+	temp = *head_b;
+	if (is_in_first_half(stack_b, head_b))
+	{
+		while ((*head_b)->number != max)
+			rb_rule(head_b);
+		pa_rule(stack_a, stack_b, head_b);
+	}
+	else
+	{
+		while ((*head_b)->number != max)
+			rrb_rule(head_b);
+		pa_rule(stack_a, stack_b, head_b);
+	}
 }
 
 void	chunk_sort(t_stack *stack_a, t_stack *stack_b)
@@ -464,6 +486,11 @@ void	chunk_sort(t_stack *stack_a, t_stack *stack_b)
 			chunk_limit += chunk_step;
 			i = stack_a->size;
 		}
+	}
+	stack_a->node = NULL;
+	while (stack_b->size)
+	{
+		traverse_b(stack_a, stack_b, &stack_b->node);
 	}
 }
 

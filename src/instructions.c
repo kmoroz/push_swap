@@ -81,6 +81,8 @@ void	pb_rule(t_stack *stack_a, t_stack *stack_b, t_node **head)
 	stack_a->size--;
 	stack_b->size++;
 	free(current);
+	if (stack_a->size == 0)
+		stack_a->node = NULL;
 }
 
 void	ra_rule(t_node **head)

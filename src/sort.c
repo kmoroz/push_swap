@@ -1,6 +1,7 @@
 #include "push_swap.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <limits.h>
 
 void	put_num_on_stack_reversed(int num, t_node **head)
 {
@@ -276,20 +277,6 @@ void	sort_two(t_node	**head, t_stack *stack)
 		sa_rule(stack);
 }
 
-void	add_partition(t_stack *stack)
-{
-	t_node	*temp;
-
-	temp = stack->node;
-	stack->partition = stack->node;
-	while (!temp->is_sorted)
-	{
-		temp->is_sorted = 1;
-		stack->size--;
-		temp = temp->next;
-	}
-}
-
 int	is_sorted(t_node *stack_a)
 {
 	t_node	*temp;
@@ -306,66 +293,178 @@ int	is_sorted(t_node *stack_a)
 	return (1);
 }
 
-void put_sorted_to_bottom(t_node **head, t_stack *stack_a, int size)
+int	find_stack_min(t_stack *stack_a, t_node **head_a)
 {
+	int		min;
+	int		i;
+	t_node	*temp;
+
+	min = INT_MAX;
+	i = stack_a->size;
+	temp = *head_a;
+	while (i)
+	{
+		if (min > temp->number)
+			min = temp->number;
+		temp = temp->next;
+		i--;
+	}
+	return (min);
+}
+
+int	find_stack_max(t_stack *stack_a, t_node **head_a)
+{
+	int		max;
+	int		i;
+	t_node	*temp;
+
+	max = INT_MIN;
+	i = stack_a->size;
+	temp = *head_a;
+	while (i)
+	{
+		if (max < temp->number)
+			max = temp->number;
+		temp = temp->next;
+		i--;
+	}
+	return (max);
+}
+
+int	get_chunk_number(t_stack *stack_a, t_node **head_a)
+{
+	int	chunk_step;
+	int	max;
+	int	min;
+
+	max = find_stack_max(stack_a, head_a);
+	min = find_stack_min(stack_a, head_a);
+	if (stack_a->size <= 100)
+		chunk_step = ((max - min) / 5) + 1;
+	if (stack_a->size > 100)
+		chunk_step = ((max - min) / 11) + 1;
+	return (chunk_step);
+}
+
+int	count_chunk_elements(t_stack *stack_a, t_node **head_a, int chunk_limit)
+{
+	int		i;
 	t_node	*temp;
 	int		count;
 
-	temp = *head;
+	i = stack_a->size;
+	temp = *head_a;
 	count = 0;
-	while (temp->is_sorted && temp->next != *head)
+	while (i)
 	{
-		count++;
-		temp = temp->next;
-	}
-	if (count)
-	{
-		while (size)
+		if (temp->number < chunk_limit)
 		{
-			rra_rule(head);
-			size--;
+			temp->is_in_chunk = 1;
+			count++;
+		}
+		temp = temp->next;
+		i--;
+	}
+	return (count);
+}
+
+int	count_ra_moves(t_stack *stack_a, t_node **head_a)
+{
+	int		i;
+	int		count_from_top;
+	t_node	*temp;
+
+	i = stack_a->size / 2;
+	count_from_top = 0;
+	temp = *head_a;
+	while (i)
+	{
+		if (temp->is_in_chunk)
+			break ;
+		count_from_top++;
+		temp = temp->next;
+		i--;
+	}
+	return (count_from_top);
+}
+
+int	count_rra_moves(t_stack *stack_a, t_node **head_a)
+{
+	int		i;
+	int		count_from_bottom;
+	t_node	*temp;
+
+	i = stack_a->size / 2;
+	count_from_bottom = 1;
+	temp = (*head_a)->prev;
+	while (i)
+	{
+		if (temp->is_in_chunk)
+			break ;
+		count_from_bottom++;
+		temp = temp->prev;
+		i--;
+	}
+	return (count_from_bottom);
+}
+
+void move_closest_to_top(t_stack *stack_a, t_node **head_a)
+{
+	int		count_from_top;
+	int		count_from_bottom;
+	t_node	*temp;
+
+	count_from_top = count_ra_moves(stack_a, head_a);
+	count_from_bottom = count_rra_moves(stack_a, head_a);	
+	if (count_from_top > count_from_bottom)
+	{
+		while (count_from_bottom)
+		{
+			rra_rule(&stack_a->node);
+			count_from_bottom--;
+		}
+	}
+	else if (count_from_bottom > count_from_top || count_from_bottom == count_from_top)
+	{
+		while (count_from_top)
+		{
+			ra_rule(&stack_a->node);
+			count_from_top--;
 		}
 	}
 }
 
-void	quicksort(t_stack *stack_a, t_stack *stack_b)
+int	move_to_top(t_stack *stack_a, t_stack *stack_b, int chunk_limit)
 {
-	int	pivot;
+	int	i;
 
-	pivot = 0;
-	while (stack_a->size > 2)
+	i = count_chunk_elements(stack_a, &stack_a->node, chunk_limit);
+	while (i)
 	{
-		find_pivot(stack_a->size, &stack_a->node, &pivot, &stack_a->partition);
-		traverse_a(stack_a, stack_b, pivot, &stack_a->node);
+		move_closest_to_top(stack_a, &stack_a->node);
+		pb_rule(stack_a, stack_b, &stack_a->node, stack_a->size);
+		i--;
 	}
-	if (stack_a->size == 3)
+	return (1);
+}
+
+void	chunk_sort(t_stack *stack_a, t_stack *stack_b)
+{
+	int	chunk_limit;
+	int	i;
+	int	chunk_step;
+
+	chunk_step = get_chunk_number(stack_a, &stack_a->node);
+	chunk_limit = find_stack_min(stack_a, &stack_a->node) + chunk_step;
+	i = stack_a->size;
+	while (i)
 	{
-		sort_three(stack_a);
-		add_partition(stack_a);
+		if (move_to_top(stack_a, stack_b, chunk_limit))
+		{
+			chunk_limit += chunk_step;
+			i = stack_a->size;
+		}
 	}
-	if (stack_a->size == 2)
-	{
-		sort_two(&stack_a->node, stack_a);
-		put_sorted_to_bottom(&stack_a->node, stack_a, stack_a->size);
-		add_partition(stack_a);
-	}
-	if (stack_a->size == 1)
-	{
-		put_sorted_to_bottom(&stack_a->node, stack_a, stack_a->size);
-		add_partition(stack_a);
-	}
-	if (stack_b->size == 1)
-	{
-		pa_rule(stack_a, stack_b, &stack_b->node, 1);
-		stack_b->node = NULL;
-		return ;
-	}
-	while (stack_a->size < 1 && stack_b->size > 1)
-	{
-		find_pivot(stack_b->size, &stack_b->node, &pivot, &stack_b->partition);
-		traverse_b(stack_a, stack_b, pivot, &stack_b->node);
-	}
-	quicksort(stack_a, stack_b);
 }
 
 void	sort_stack(t_stack *stack_a, t_stack *stack_b)
@@ -376,6 +475,6 @@ void	sort_stack(t_stack *stack_a, t_stack *stack_b)
 	{
 		if (is_sorted(stack_a->node))
 			exit(0);
-		quicksort(stack_a, stack_b);
+		chunk_sort(stack_a, stack_b);
 	}
 }

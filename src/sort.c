@@ -354,7 +354,6 @@ void move_closest_to_top(t_stack *stack_a, t_node **head_a)
 {
 	int		count_from_top;
 	int		count_from_bottom;
-	t_node	*temp;
 
 	count_from_top = count_ra_moves(stack_a, head_a);
 	count_from_bottom = count_rra_moves(stack_a, head_a);
@@ -410,12 +409,8 @@ int is_in_first_half(t_stack *stack, t_node **head, int num)
 void	traverse_b(t_stack *stack_a, t_stack *stack_b, t_node **head_b)
 {
 	int		max;
-	int		i;
-	t_node	*temp;
-	int		rotation_num;
 
 	max = find_stack_max(stack_b, head_b);
-	temp = *head_b;
 	if (is_in_first_half(stack_b, head_b, max))
 	{
 		while ((*head_b)->number != max)

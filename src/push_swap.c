@@ -1,7 +1,7 @@
 #include "push_swap.h"
 #include <limits.h>
 
-void	validate_args(int argc, char **argv)
+void	validate_args(int argc)
 {
 	if (argc < 2)
 		ft_error();
@@ -154,7 +154,7 @@ void	print_stack(t_node **head)
 	temp = *head;
 	while (temp)
 	{
-		printf("%d\n", temp->number);
+		//printf("%d\n", temp->number);
 		temp = temp->next;
 	}
 }
@@ -170,7 +170,7 @@ int	main(int argc, char **argv)
 	stack_b.partition = NULL;
 	stack_a.size = 0;
 	stack_b.size = 0;
-	validate_args(argc, argv);
+	validate_args(argc);
 	build_stack(argc, argv, &stack_a);
 	check_dupes(stack_a.node);
 	sort_stack(&stack_a, &stack_b);

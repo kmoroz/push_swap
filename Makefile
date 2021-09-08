@@ -14,7 +14,7 @@ HEADER_CHECKER = src/checker.h
 LIBFT_DIR = libft/
 LIBFT = libft.a
 
-CFLAGS = -g #-Wall -Werror -Wextra
+CFLAGS = -g -Wall -Werror -Wextra
 
 all: $(PUSH_SWAP) $(CHECKER)
 

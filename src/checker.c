@@ -110,7 +110,7 @@ void	print_stack(t_node **head)
 	temp = *head;
 	while (temp)
 	{
-		printf("%d\n", temp->number);
+		//printf("%d\n", temp->number);
 		temp = temp->next;
 	}
 }

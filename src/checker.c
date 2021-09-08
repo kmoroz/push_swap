@@ -271,13 +271,13 @@ int	main(int argc, char **argv)
 		if (is_sorted(stack_a.node) && !stack_b.size)
 		{
 			write(1, "OK\n", 3);
-			print_stack(&stack_a.node);
+			//print_stack(&stack_a.node);
 			exit(0);
 		}
 		else
 		{
 			write(1, "KO\n", 3);
-			print_stack(&stack_a.node);
+			//(&stack_a.node);
 		}
 	}
 	else

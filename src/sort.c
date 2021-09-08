@@ -322,7 +322,7 @@ int	get_chunk_number(t_stack *stack_a, t_node **head_a)
 	if (stack_a->size <= 100)
 		chunk_step = ((max - min) / 5) + 1;
 	if (stack_a->size > 100)
-		chunk_step = ((max - min) / 11) + 1;
+		chunk_step = ((max - min) / 12) + 1;
 	return (chunk_step);
 }
 

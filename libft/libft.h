@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/10 11:43:49 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/08/10 16:50:17 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/07 19:32:19 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ typedef struct s_node
 	int				number;
 	struct s_node	*next;
 	struct s_node	*prev;
-	int				is_sorted;
+	int				is_in_chunk;
 }	t_node;
 
 char			**ft_split(char const *str, char dlm);

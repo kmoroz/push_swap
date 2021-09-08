@@ -134,63 +134,26 @@ void	sort_three(t_stack *stack)
 		rra_rule(&stack->node);
 }
 
-void	pick_median_of_three(int *pivot, int head_num, int middle, int tail)
-{
-	if (middle > head_num && middle > tail && tail < head_num)
-		*pivot = head_num;
-	else if (middle > head_num && middle > tail && tail > head_num)
-		*pivot = tail;
-	else if (middle < head_num && middle < tail && tail < head_num)
-		*pivot = tail;
-	else if (middle < head_num && middle < tail && tail > head_num)
-		*pivot = head_num;
-	else if (middle > head_num && middle < tail && tail > head_num)
-		*pivot = middle;
-	else if (middle < head_num && middle > tail && tail < head_num)
-		*pivot = middle;
-}
-
-void	find_pivot(int size, t_node **head, int *pivot, t_node **partition)
-{
-	t_node	*fast;
-	t_node	*slow;
-	int		tail;
-	int		middle;
-	int		head_num;
-
-	fast = (*head)->next;
-	slow = *head;
-	tail = (*head)->prev->number;
-	head_num = (*head)->number;
-	if (!*partition)
-	{
-		while (fast != *head && fast->next != *head)
-		{
-			fast = fast->next->next;
-			slow = slow->next;
-		}
-	}
-	else
-	{
-		while (fast != *partition && fast->next != *partition)
-		{
-			fast = fast->next->next;
-			slow = slow->next;
-		}	
-	}
-	middle = slow->number;
-	if (size == 2)
-	{
-		if (head_num < tail)
-			*pivot = head_num;
-		else
-			*pivot = tail;
-	}
-	else
-		pick_median_of_three(pivot, head_num, middle, tail);
-}
-
 int	vals_less_than_pivot_left(t_node **head, int pivot, int size)
+{
+	int		count;
+	t_node	*temp;
+	int		result;
+
+	count = size;
+	temp = *head;
+	result = 0;
+	while (count)
+	{
+		if (temp->number < pivot)
+			result++;
+		temp = temp->next;
+		count--;
+	}
+	return (result);
+}
+
+void	find_pivot(int size, t_node **head, int *pivot)
 {
 	int		count;
 	t_node	*temp;
@@ -199,12 +162,11 @@ int	vals_less_than_pivot_left(t_node **head, int pivot, int size)
 	temp = *head;
 	while (count)
 	{
-		if (temp->number < pivot)
-			return (1);
+		if (vals_less_than_pivot_left(head, temp->number, size) == 2)
+			*pivot = temp->number;
 		temp = temp->next;
 		count--;
 	}
-	return (0);
 }
 
 int	vals_more_than_pivot_left(t_node **head, int pivot, int size)
@@ -428,18 +390,16 @@ int	move_to_top(t_stack *stack_a, t_stack *stack_b, int chunk_limit)
 	return (1);
 }
 
-int is_in_first_half(t_stack *stack, t_node **head)
+int is_in_first_half(t_stack *stack, t_node **head, int num)
 {
-	int		max;
 	int		i;
 	t_node	*temp;
 
-	max = find_stack_max(stack, head);
 	temp = *head;
 	i = stack->size / 2;
 	while (i)
 	{
-		if (temp->number == max)
+		if (temp->number == num)
 			return (1);
 		i--;
 		temp = temp->next;
@@ -456,7 +416,7 @@ void	traverse_b(t_stack *stack_a, t_stack *stack_b, t_node **head_b)
 
 	max = find_stack_max(stack_b, head_b);
 	temp = *head_b;
-	if (is_in_first_half(stack_b, head_b))
+	if (is_in_first_half(stack_b, head_b, max))
 	{
 		while ((*head_b)->number != max)
 			rb_rule(head_b);
@@ -489,16 +449,52 @@ void	chunk_sort(t_stack *stack_a, t_stack *stack_b)
 	}
 	stack_a->node = NULL;
 	while (stack_b->size)
-	{
 		traverse_b(stack_a, stack_b, &stack_b->node);
+}
+
+void	quicksort(t_stack *stack_a, t_stack *stack_b)
+{
+	int	pivot;
+	int	i;
+	int	max_b;
+
+	pivot = 0;
+	while (stack_a->size > 3)
+	{
+		find_pivot(stack_a->size, &stack_a->node, &pivot);
+		i = vals_less_than_pivot_left(&stack_a->node, pivot, stack_a->size);
+		while (i)
+		{
+			if (stack_a->node->number < pivot)
+			{
+				pb_rule(stack_a, stack_b, &stack_a->node);
+				i--;
+			}
+			else
+				ra_rule(&stack_a->node);
+		}
 	}
+	sort_three(stack_a);
+	max_b = find_stack_max(stack_b, &stack_b->node);
+	if (stack_b->node->number != max_b)
+		rb_rule(&stack_b->node);
+	while (stack_b->size)
+		pa_rule(stack_a, stack_b, &stack_b->node);
+}
+
+void	sort_small(t_stack *stack_a, t_stack *stack_b)
+{
+	if (stack_a->size == 3)
+		sort_three(stack_a);
+	else
+		quicksort(stack_a, stack_b);
 }
 
 void	sort_stack(t_stack *stack_a, t_stack *stack_b)
 {
-	if (stack_a->size == 3)
-		sort_three(stack_a);
-	if (stack_a->size > 3)
+	if (stack_a->size <= SMALL_STACK)
+		sort_small(stack_a, stack_b);
+	if (stack_a->size > SMALL_STACK)
 	{
 		if (is_sorted(stack_a->node))
 			exit(0);

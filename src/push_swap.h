@@ -3,6 +3,8 @@
 
 # include "../libft/libft.h"
 
+# define SMALL_STACK 5
+
 typedef struct s_stack
 {
 	t_node		*node;

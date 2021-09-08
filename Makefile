@@ -19,12 +19,14 @@ CFLAGS = -g #-Wall -Werror -Wextra
 all: $(PUSH_SWAP) $(CHECKER)
 
 $(PUSH_SWAP): $(OBJ_PS)
-	make -C $(LIBFT_DIR)
-	gcc $(CFLAGS) $(OBJ_PS) $(LIBFT_DIR)$(LIBFT) -o $(PUSH_SWAP)
+	@make -C $(LIBFT_DIR)
+	@gcc $(CFLAGS) $(OBJ_PS) $(LIBFT_DIR)$(LIBFT) -o $(PUSH_SWAP)
+	@echo "\e[32m$@ built 📈\e[0m\n"
 
 $(CHECKER): $(OBJ_CHECKER)
-	make -C $(LIBFT_DIR)
-	gcc $(CFLAGS) $(OBJ_CHECKER) $(LIBFT_DIR)$(LIBFT) -o $(CHECKER)
+	@make -C $(LIBFT_DIR)
+	@gcc $(CFLAGS) $(OBJ_CHECKER) $(LIBFT_DIR)$(LIBFT) -o $(CHECKER)
+	@echo "\e[32m$@ built 📉\e[0m\n"
 
 %.o: %.c $(HEADER_PS) $(HEADER_CHECKER)
 	gcc $(CFLAGS) -c $< -o $@

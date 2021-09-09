@@ -6,7 +6,7 @@
 #    By: ksmorozo <ksmorozo@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/11/10 19:37:56 by ksmorozo      #+#    #+#                  #
-#    Updated: 2021/08/10 16:49:59 by ksmorozo      ########   odam.nl          #
+#    Updated: 2021/09/09 14:54:58 by ksmorozo      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ $(NAME): $(OBJ)
 	ranlib $@
 
 %.o: %.c $(HEADER)
-	gcc $(CFLAGS) -c $< -o $@
+	@gcc $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJ)

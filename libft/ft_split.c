@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/09 11:35:51 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/07/06 14:56:48 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/09 17:37:05 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,17 @@ char	**ft_split(char const *str, char dlm)
 	int		word_count;
 	char	*trimed_str;
 	char	**result;
+	char	*dlm_str;
 
-	trimed_str = ft_strtrim(str, &dlm);
+	dlm_str = malloc(2);
+	dlm_str[0] = dlm;
+	dlm_str[1] = '\0';
+	trimed_str = ft_strtrim(str, dlm_str);
 	if (trimed_str == NULL)
 		return (NULL);
 	word_count = get_word_count((char *)trimed_str, dlm);
 	result = split(trimed_str, dlm, word_count);
 	free(trimed_str);
+	free (dlm_str);
 	return (result);
 }

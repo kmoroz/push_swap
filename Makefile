@@ -1,7 +1,11 @@
 PUSH_SWAP = push_swap
 CHECKER =  checker
 SRC_PS = src/push_swap.c \
-src/sort.c
+src/sort.c src/stack_builder.c \
+src/chunk_sort.c src/stack_a_instructions.c \
+src/stack_b_instructions.c src/sort_utils.c \
+src/chunk_sort_utils.c src/quicksort.c \
+src/sort_three.c
 SRC_CHECKER = src/checker.c \
 src/instructions.c get_next_line/get_next_line.c \
 

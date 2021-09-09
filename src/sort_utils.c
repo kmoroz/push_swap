@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 12:09:47 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/09 12:12:58 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/09 15:35:12 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,20 +73,4 @@ int	find_stack_max(t_stack *stack, t_node **head)
 		i--;
 	}
 	return (max);
-}
-
-int	is_sorted(t_node *stack_a)
-{
-	t_node	*temp;
-
-	if (!stack_a)
-		return (0);
-	temp = stack_a;
-	while (temp->next != stack_a)
-	{
-		if (temp->number > temp->next->number)
-			return (0);
-		temp = temp->next;
-	}
-	return (1);
 }

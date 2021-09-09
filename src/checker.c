@@ -1,123 +1,10 @@
 #include "checker.h"
 #include "../get_next_line/get_next_line.h"
-#include <limits.h>
 #include <unistd.h>
 #include <stdlib.h>
 
-int	calculate_array_size(char **str)
+void	record_instruction(char *line, t_node **head)
 {
-	int	count;
-
-	count = 0;
-	while (str[count])
-	{
-		count++;
-	}
-	return (count);
-}
-
-void	verify_input(const char *str)
-{
-	int	count;
-
-	count = 0;
-	while (str[count])
-	{
-		if (!ft_isdigit(str[count]) && str[count] != '-')
-			ft_error();
-		count++;
-	}
-	if (ft_strlen(str) > 10)
-		ft_error();
-	if (ft_strlen(str) == 10)
-	{
-		if (ft_atol(str) > INT_MAX)
-			ft_error();
-	}
-}
-
-void	put_num_on_stack(int num, t_node **head)
-{
-	t_node	*tail;
-	t_node	*new_node;
-
-	new_node = ft_lstnew(num);
-	if (!*head)
-	{
-		*head = new_node;
-		tail = new_node;
-		tail->next = *head;
-		tail->prev = *head;
-	}
-	else
-	{
-		tail = (*head)->prev;
-		new_node->next = *head;
-		(*head)->prev = new_node;
-		new_node->prev = tail;
-		tail->next = new_node;
-	}
-}
-
-void	count_stack_size(t_stack *stack_a, t_node **head)
-{
-	t_node	*current;
-	t_node	*tail;
-
-	current = *head;
-	tail = current->prev;
-	while (current != tail)
-	{
-		stack_a->size++;
-		current = current->next;
-	}
-	stack_a->size++;
-}
-
-void	build_stack(int argc, char **argv, t_stack *stack_a)
-{
-	int		i;
-	int		j;
-	char	**str;
-	int		num;
-	int		array_size;
-
-	i = 1;
-	while (i < argc)
-	{
-		str = ft_split(argv[i], ' ');
-		array_size = calculate_array_size(str);
-		j = 0;
-		while (j < array_size)
-		{
-			verify_input(str[j]);
-			num = ft_atol(str[j]);
-			put_num_on_stack(num, &stack_a->node);
-			j++;
-		}
-		i++;
-	}
-	count_stack_size(stack_a, &stack_a->node);
-}
-
-void	print_stack(t_node **head)
-{
-	t_node	*tail;
-	t_node	*temp;
-
-	tail = (*head)->prev;
-	tail->next = NULL;
-	temp = *head;
-	while (temp)
-	{
-		//printf("%d\n", temp->number);
-		temp = temp->next;
-	}
-}
-
-void record_instruction(char *line, t_node **head)
-{
-	//printf("%ld\n", ft_strlen(line));
 	if (!ft_strncmp("sa", line, ft_strlen(line)))
 		put_num_on_stack(SA, head);
 	else if (!ft_strncmp("sb", line, ft_strlen(line)))
@@ -153,7 +40,6 @@ void	get_instructions(t_node	**instructions)
 	while (status > 0)
 	{
 		status = get_next_line(STDIN_FILENO, &line);
-		//printf("%s\n", line);
 		if (*line)
 			record_instruction(line, instructions);
 		free(line);
@@ -194,63 +80,6 @@ void	apply_instructions(t_node *instructions_head, t_stack *stack_a, t_stack *st
 	}
 }
 
-int	is_sorted(t_node *stack_a)
-{
-	t_node	*temp;
-
-	if (!stack_a)
-		return (0);
-	temp = stack_a;
-	while (temp->next != stack_a)
-	{
-		if (temp->number > temp->next->number)
-			return (0);
-		temp = temp->next;
-	}
-	return (1);
-}
-
-void	make_list_linear(t_node *head)
-{
-	t_node	*tail;
-
-	tail = head->prev;
-	tail->next = NULL;
-}
-
-void	make_list_circular(t_node *head)
-{
-	t_node	*tail;
-
-	tail = head->prev;
-	tail->next = head;
-}
-
-void	check_dupes(t_node *head)
-{
-	int		count;
-	t_node	*temp;
-	t_node	*temp_2;
-
-	make_list_linear(head);
-	temp = head;
-	while (temp)
-	{
-		count = 0;
-		temp_2 = head;
-		while (temp_2)
-		{
-			if (temp->number == temp_2->number)
-				count++;
-			temp_2 = temp_2->next;
-		}
-		if (count > 1)
-			ft_error();
-		temp = temp->next;
-	}
-	make_list_circular(head);
-}
-
 int	main(int argc, char **argv)
 {
 	t_stack	stack_a;
@@ -265,20 +94,16 @@ int	main(int argc, char **argv)
 	if (argc > 1)
 	{
 		build_stack(argc, argv, &stack_a);
+		if (is_sorted(stack_a.node))
+			exit(0);
 		check_dupes(stack_a.node);
 		get_instructions(&instructions);
-		apply_instructions(instructions, &stack_a, &stack_b);
+		if (instructions)
+			apply_instructions(instructions, &stack_a, &stack_b);
 		if (is_sorted(stack_a.node) && !stack_b.size)
-		{
 			write(1, "OK\n", 3);
-			//print_stack(&stack_a.node);
-			exit(0);
-		}
 		else
-		{
 			write(1, "KO\n", 3);
-			//(&stack_a.node);
-		}
 	}
 	else
 		exit(0);

@@ -1,13 +1,15 @@
 PUSH_SWAP = push_swap
 CHECKER =  checker
+COMMON_SRC = src/stack_builder.c src/common.c
 SRC_PS = src/push_swap.c \
-src/sort.c src/stack_builder.c \
+src/sort.c \
 src/chunk_sort.c src/stack_a_instructions.c \
 src/stack_b_instructions.c src/sort_utils.c \
 src/chunk_sort_utils.c src/quicksort.c \
-src/sort_three.c
+src/sort_three.c $(COMMON_SRC)
 SRC_CHECKER = src/checker.c \
 src/instructions.c get_next_line/get_next_line.c \
+$(COMMON_SRC)
 
 OBJ_PS = $(SRC_PS:.c=.o)
 OBJ_CHECKER = $(SRC_CHECKER:.c=.o)
@@ -33,7 +35,7 @@ $(CHECKER): $(OBJ_CHECKER)
 	@echo "\e[32m$@ built 📉\e[0m\n"
 
 %.o: %.c $(HEADER_PS) $(HEADER_CHECKER)
-	gcc $(CFLAGS) -c $< -o $@
+	@gcc $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJ_PS) $(OBJ_CHECKER) 

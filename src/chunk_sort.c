@@ -6,14 +6,14 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 11:41:14 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/09 12:21:52 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/09 12:49:30 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <limits.h>
 
-void move_closest_to_top(t_stack *stack_a, t_node **head_a)
+void	move_closest_to_top(t_stack *stack_a, t_node **head_a)
 {
 	int		count_from_top;
 	int		count_from_bottom;
@@ -28,7 +28,8 @@ void move_closest_to_top(t_stack *stack_a, t_node **head_a)
 			count_from_bottom--;
 		}
 	}
-	else if (count_from_bottom > count_from_top || count_from_bottom == count_from_top)
+	else if (count_from_bottom > count_from_top
+		|| count_from_bottom == count_from_top)
 	{
 		while (count_from_top)
 		{

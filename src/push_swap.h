@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 11:25:09 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/09 12:31:23 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/09 15:43:39 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@ typedef struct s_stack
 }				t_stack;
 
 void	sort_stack(t_stack *stack_a, t_stack *stack_b);
-void	make_list_linear(t_node *head);
-void	make_list_circular(t_node *head);
-void	build_stack(int argc, char **argv, t_stack *stack_a);
 void	chunk_sort(t_stack *stack_a, t_stack *stack_b);
 int		get_chunk_number(t_stack *stack_a, t_node **head_a);
 int		count_chunk_elements(t_stack *stack_a,
@@ -45,8 +42,6 @@ void	rb_rule(t_node **head);
 void	put_num_on_stack_reversed(int num, t_node **head);
 int		find_stack_min(t_stack *stack_a, t_node **head_a);
 int		find_stack_max(t_stack *stack, t_node **head);
-int		is_sorted(t_node *stack_a);
-void	chunk_sort(t_stack *stack_a, t_stack *stack_b);
 void	traverse_b(t_stack *stack_a, t_stack *stack_b, t_node **head_b);
 int		move_top_to_b(t_stack *stack_a, t_stack *stack_b, int chunk_limit);
 void	move_closest_to_top(t_stack *stack_a, t_node **head_a);
@@ -54,5 +49,12 @@ void	quicksort(t_stack *stack_a, t_stack *stack_b);
 void	find_pivot(int size, t_node **head, int *pivot);
 int		vals_less_than_pivot_left(t_node **head, int pivot, int size);
 void	sort_three(t_stack *stack);
+// ------------------------------ common -----------------------------------
+void	build_stack(int argc, char **argv, t_stack *stack_a);
+void	put_num_on_stack(int num, t_node **head);
+void	check_dupes(t_node *head);
+int		is_sorted(t_node *stack_a);
+void	make_list_linear(t_node *head);
+void	make_list_circular(t_node *head);
 
 #endif

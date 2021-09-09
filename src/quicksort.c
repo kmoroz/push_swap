@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 12:27:33 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/09 12:51:51 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/09 14:23:30 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	quicksort(t_stack *stack_a, t_stack *stack_b)
 	int	i;
 	int	max_b;
 
-	pivot = 0;
 	while (stack_a->size > 3)
 	{
 		find_pivot(stack_a->size, &stack_a->node, &pivot);

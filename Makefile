@@ -25,24 +25,26 @@ CFLAGS = -g -Wall -Werror -Wextra
 all: $(PUSH_SWAP) $(CHECKER)
 
 $(PUSH_SWAP): $(OBJ_PS)
-	@make -C $(LIBFT_DIR)
+	@make --no-print-directory -C $(LIBFT_DIR)
 	@gcc $(CFLAGS) $(OBJ_PS) $(LIBFT_DIR)$(LIBFT) -o $(PUSH_SWAP)
-	@echo "\e[32m$@ built 📈\e[0m\n"
+	@echo "\n\e[32m$@ built 📈\e[0m\n"
 
 $(CHECKER): $(OBJ_CHECKER)
-	@make -C $(LIBFT_DIR)
+	@make --no-print-directory -C $(LIBFT_DIR)
 	@gcc $(CFLAGS) $(OBJ_CHECKER) $(LIBFT_DIR)$(LIBFT) -o $(CHECKER)
-	@echo "\e[32m$@ built 📉\e[0m\n"
+	@echo "\n\e[32m$@ built 📉\e[0m\n"
 
 %.o: %.c $(HEADER_PS) $(HEADER_CHECKER)
 	@gcc $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ_PS) $(OBJ_CHECKER) 
-	make clean -C $(LIBFT_DIR)
+	@rm -f $(OBJ_PS) $(OBJ_CHECKER) 
+	@make --no-print-directory clean -C $(LIBFT_DIR)
+	@echo "\n\e[31m object files removed 👋\e[0m\n"
 
 fclean: clean
-	rm -f $(PUSH_SWAP) $(CHECKER)
-	rm -f $(LIBFT) $(LIBFT_DIR)$(LIBFT)
+	@rm -f $(PUSH_SWAP) $(CHECKER)
+	@rm -f $(LIBFT) $(LIBFT_DIR)$(LIBFT)
+	@echo "\n\e[31m executables removed 👋\e[0m\n"
 
 re: fclean all

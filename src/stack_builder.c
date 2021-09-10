@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 11:22:33 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/09 11:22:40 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/10 14:05:41 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	build_stack(int argc, char **argv, t_stack *stack_a)
 			j++;
 		}
 		i++;
+		free_array(str, array_size);
 	}
 	count_stack_size(stack_a, &stack_a->node);
 }

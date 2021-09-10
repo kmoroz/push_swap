@@ -1,6 +1,7 @@
 PUSH_SWAP = push_swap
 CHECKER =  checker
-COMMON_SRC = src/stack_builder.c src/common.c
+COMMON_SRC = src/stack_builder.c src/common.c \
+src/freeing.c
 SRC_PS = src/push_swap.c \
 src/sort.c \
 src/chunk_sort.c src/stack_a_instructions.c \

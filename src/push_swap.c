@@ -6,11 +6,12 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 11:22:02 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/09 15:37:39 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/10 14:23:53 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <stdlib.h>
 
 void	validate_args(int argc, t_stack *stack_a)
 {
@@ -36,4 +37,5 @@ int	main(int argc, char **argv)
 	validate_args(argc, &stack_a);
 	check_dupes(stack_a.node);
 	sort_stack(&stack_a, &stack_b);
+	free_node(&stack_a.node, stack_a.size);
 }

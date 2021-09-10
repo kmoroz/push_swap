@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 12:04:12 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/09 12:19:07 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/10 16:46:26 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ void	pa_rule(t_stack *stack_a, t_stack *stack_b, t_node **head)
 	next_head = (*head)->next;
 	tail = (*head)->prev;
 	put_num_on_stack_reversed((*head)->number, &stack_a->node);
-	free(current);
 	*head = next_head;
 	tail->next = *head;
 	(*head)->prev = tail;
 	stack_a->size++;
 	stack_b->size--;
+	free(current);
 	write(1, "pa\n", 3);
 }
 

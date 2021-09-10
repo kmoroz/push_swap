@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/10 14:03:29 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/10 14:23:45 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/10 14:30:39 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	free_array(char **array, int size)
 	free(array);
 }
 
-void	free_node(t_node **head, int size)
+int	free_node(t_node **head, int size)
 {
 	t_node	*temp;
 
@@ -34,4 +34,5 @@ void	free_node(t_node **head, int size)
 		free(temp);
 		size--;
 	}
+	return (0);
 }

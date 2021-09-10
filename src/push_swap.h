@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 11:25:09 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/10 14:24:07 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/10 14:30:51 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ int		is_sorted(t_node *stack_a);
 void	make_list_linear(t_node *head);
 void	make_list_circular(t_node *head);
 void	free_array(char **array, int size);
-void	free_node(t_node **head, int size);
+int		free_node(t_node **head, int size);
 
 #endif

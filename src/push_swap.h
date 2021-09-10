@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 11:25:09 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/10 14:30:51 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/10 16:53:07 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ typedef struct s_stack
 {
 	t_node		*node;
 	int			size;
-	t_node		*partition;
 }				t_stack;
 
 void	sort_stack(t_stack *stack_a, t_stack *stack_b);
@@ -58,5 +57,7 @@ void	make_list_linear(t_node *head);
 void	make_list_circular(t_node *head);
 void	free_array(char **array, int size);
 int		free_node(t_node **head, int size);
+void	free_everything(char **array, int array_size,
+			t_stack *stack);
 
 #endif

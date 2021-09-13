@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 15:34:50 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/13 13:25:47 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/13 16:25:51 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	make_list_circular(t_node *head)
 	tail->next = head;
 }
 
-void	check_dupes(t_node *head)
+void	check_dupes(t_node *head, int size)
 {
 	int		count;
 	t_node	*temp;
@@ -87,7 +87,10 @@ void	check_dupes(t_node *head)
 			temp_2 = temp_2->next;
 		}
 		if (count > 1)
+		{
+			free_node(&head, size);
 			ft_error();
+		}
 		temp = temp->next;
 	}
 	make_list_circular(head);

@@ -6,12 +6,13 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 11:22:33 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/10 14:05:41 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/10 16:30:29 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <limits.h>
+#include <stdbool.h>
 
 int	calculate_array_size(char **str)
 {
@@ -25,23 +26,47 @@ int	calculate_array_size(char **str)
 	return (count);
 }
 
-void	verify_input(const char *str)
+void	count_stack_size(t_stack *stack_a, t_node **head)
 {
-	int	count;
+	t_node	*current;
+	t_node	*tail;
+
+	if (!stack_a->node)
+		return ;
+	current = *head;
+	tail = current->prev;
+	while (current != tail)
+	{
+		stack_a->size++;
+		current = current->next;
+	}
+	stack_a->size++;
+}
+
+void	verify_input(const char *str, t_stack *stack_a, char **array, int size)
+{
+	int		count;
+	bool	error;
 
 	count = 0;
+	error = false;
 	while (str[count])
 	{
 		if (!ft_isdigit(str[count]) && str[count] != '-')
-			ft_error();
+			error = true;
 		count++;
 	}
+	if (ft_strlen(str) == 1 && str[0] == '-')
+		error = true;
 	if (ft_strlen(str) > 10)
-		ft_error();
-	if (ft_strlen(str) == 10)
+		error = true;
+	if (ft_atol(str) > INT_MAX)
+		error = true;
+	if (error == true)
 	{
-		if (ft_atol(str) > INT_MAX)
-			ft_error();
+		count_stack_size(stack_a, &stack_a->node);
+		free_everything(array, size, stack_a);
+		ft_error();
 	}
 }
 
@@ -68,21 +93,6 @@ void	put_num_on_stack(int num, t_node **head)
 	}
 }
 
-void	count_stack_size(t_stack *stack_a, t_node **head)
-{
-	t_node	*current;
-	t_node	*tail;
-
-	current = *head;
-	tail = current->prev;
-	while (current != tail)
-	{
-		stack_a->size++;
-		current = current->next;
-	}
-	stack_a->size++;
-}
-
 void	build_stack(int argc, char **argv, t_stack *stack_a)
 {
 	int		i;
@@ -99,7 +109,7 @@ void	build_stack(int argc, char **argv, t_stack *stack_a)
 		j = 0;
 		while (j < array_size)
 		{
-			verify_input(str[j]);
+			verify_input(str[j], stack_a, str, array_size);
 			num = ft_atol(str[j]);
 			put_num_on_stack(num, &stack_a->node);
 			j++;

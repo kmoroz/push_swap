@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/10 14:03:29 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/10 14:30:39 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/13 10:53:48 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,13 @@ int	free_node(t_node **head, int size)
 		size--;
 	}
 	return (0);
+}
+
+void	free_everything(char **array, int array_size,
+							t_stack *stack)
+{
+	if (array)
+		free_array(array, array_size);
+	if (&stack->node)
+		free_node(&stack->node, stack->size);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   checker.h                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2021/09/13 14:05:38 by ksmorozo      #+#    #+#                 */
+/*   Updated: 2021/09/13 14:05:39 by ksmorozo      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CHECKER_H
 # define CHECKER_H
 
@@ -30,6 +42,6 @@ void	rr_rule(t_node **head_a, t_node **head_b);
 void	rrb_rule(t_node **head);
 void	rrr_rule(t_node **head_a, t_node **head_b);
 void	apply_instructions(t_node *instructions_head,
-	t_stack *stack_a, t_stack *stack_b);
+			t_stack *stack_a, t_stack *stack_b);
 
 #endif

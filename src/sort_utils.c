@@ -6,36 +6,12 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 12:09:47 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/09 15:35:12 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/13 11:03:57 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <limits.h>
-
-void	put_num_on_stack_reversed(int num, t_node **head)
-{
-	t_node	*tail;
-	t_node	*new_node;
-
-	new_node = ft_lstnew(num);
-	if (!*head)
-	{
-		*head = new_node;
-		tail = new_node;
-		tail->next = *head;
-		tail->prev = *head;
-	}
-	else
-	{
-		tail = (*head)->prev;
-		new_node->next = *head;
-		new_node->prev = tail;
-		(*head)->prev = new_node;
-		*head = new_node;
-		tail->next = *head;
-	}
-}
 
 int	find_stack_min(t_stack *stack_a, t_node **head_a)
 {

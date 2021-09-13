@@ -11,7 +11,7 @@ src/push_swap/sort_three.c $(COMMON_SRC)
 SRC_CHECKER = src/checker/checker.c \
 src/checker/stack_b_instructions.c get_next_line/get_next_line.c \
 src/checker/stack_a_instructions.c src/checker/common_instructions.c \
-src/checker/applying_instructions.c \
+src/checker/applying_instructions.c src/checker/initialiser.c \
 $(COMMON_SRC)
 
 OBJ_PS = $(SRC_PS:.c=.o)

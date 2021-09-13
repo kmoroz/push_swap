@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 14:00:06 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/13 14:02:06 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/13 16:22:56 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,17 @@ void	apply_instructions(t_node *instructions_head,
 	t_node	*tail;
 	t_node	*temp;
 
-	tail = instructions_head->prev;
-	tail->next = NULL;
-	temp = instructions_head;
-	while (temp)
+	if (instructions_head)
 	{
-		apply_a_instructions(temp, stack_a, stack_b);
-		apply_b_instructions(temp, stack_a, stack_b);
-		apply_common_instructions(temp, stack_a, stack_b);
-		temp = temp->next;
+		tail = instructions_head->prev;
+		tail->next = NULL;
+		temp = instructions_head;
+		while (temp)
+		{
+			apply_a_instructions(temp, stack_a, stack_b);
+			apply_b_instructions(temp, stack_a, stack_b);
+			apply_common_instructions(temp, stack_a, stack_b);
+			temp = temp->next;
+		}
 	}
 }

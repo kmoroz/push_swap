@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 13:42:35 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/13 16:20:38 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/13 16:51:19 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ int	main(int argc, char **argv)
 	if (argc > 1)
 	{
 		build_stack(argc, argv, &stack_a);
-		if (is_sorted(stack_a.node))
-			exit(free_node(&stack_a.node, stack_a.size));
 		check_dupes(stack_a.node, stack_a.size);
 		get_instructions(&stack_a, &instructions);
 		count_stack_size(&instructions, &instructions.node);

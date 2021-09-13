@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 12:30:25 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/09 12:58:57 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/13 16:38:36 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ void	sort_three(t_stack *stack)
 	first = stack->node;
 	second = first->next;
 	third = second->next;
-	compare(stack, first, second, third);
+	if (!is_sorted(stack->node))
+		compare(stack, first, second, third);
 }

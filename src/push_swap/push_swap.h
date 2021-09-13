@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 11:25:09 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/13 13:25:14 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/13 15:59:23 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	sort_three(t_stack *stack);
 // ------------------------------ common -----------------------------------
 void	build_stack(int argc, char **argv, t_stack *stack_a);
 void	put_num_on_stack(int num, t_node **head);
-void	check_dupes(t_node *head);
+void	check_dupes(t_node *head, int size);
 int		is_sorted(t_node *stack_a);
 void	make_list_linear(t_node *head);
 void	make_list_circular(t_node *head);
@@ -59,5 +59,6 @@ int		free_node(t_node **head, int size);
 void	free_everything(char **array, int array_size,
 			t_stack *stack);
 void	put_num_on_stack_reversed(int num, t_node **head);
+void	count_stack_size(t_stack *stack_a, t_node **head);
 
 #endif

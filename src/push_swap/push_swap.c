@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 11:22:02 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/10 19:17:41 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/13 16:01:25 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char **argv)
 	validate_args(argc, &stack_a);
 	build_stack(argc, argv, &stack_a);
 	validate_args(argc, &stack_a);
-	check_dupes(stack_a.node);
+	check_dupes(stack_a.node, stack_a.size);
 	sort_stack(&stack_a, &stack_b);
 	free_node(&stack_a.node, stack_a.size);
 }

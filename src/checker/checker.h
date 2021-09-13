@@ -1,8 +1,7 @@
 #ifndef CHECKER_H
 # define CHECKER_H
 
-# include "../libft/libft.h"
-# include "push_swap.h"
+# include "../push_swap/push_swap.h"
 
 typedef enum e_operation
 {
@@ -30,5 +29,7 @@ void	rb_rule(t_node **head);
 void	rr_rule(t_node **head_a, t_node **head_b);
 void	rrb_rule(t_node **head);
 void	rrr_rule(t_node **head_a, t_node **head_b);
+void	apply_instructions(t_node *instructions_head,
+	t_stack *stack_a, t_stack *stack_b);
 
 #endif

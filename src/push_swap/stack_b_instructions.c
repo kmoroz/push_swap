@@ -1,58 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   stack_a_instructions.c                             :+:    :+:            */
+/*   stack_b_instructions.c                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/09/09 12:04:12 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/10 16:46:26 by ksmorozo      ########   odam.nl         */
+/*   Created: 2021/09/09 12:02:19 by ksmorozo      #+#    #+#                 */
+/*   Updated: 2021/09/13 13:30:05 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <unistd.h>
 #include <stdlib.h>
+#include <unistd.h>
 
-void	pa_rule(t_stack *stack_a, t_stack *stack_b, t_node **head)
+void	pb_rule(t_stack *stack_a, t_stack *stack_b, t_node **head)
 {
 	t_node	*current;
 	t_node	*tail;
-	t_node	*next_head;
 
+	if (!stack_a)
+		return ;
 	current = *head;
-	next_head = (*head)->next;
 	tail = (*head)->prev;
-	put_num_on_stack_reversed((*head)->number, &stack_a->node);
-	*head = next_head;
+	put_num_on_stack_reversed((*head)->number, &stack_b->node);
+	*head = (*head)->next;
 	tail->next = *head;
 	(*head)->prev = tail;
-	stack_a->size++;
-	stack_b->size--;
+	stack_a->size--;
+	stack_b->size++;
 	free(current);
-	write(1, "pa\n", 3);
+	write(1, "pb\n", 3);
+	if (stack_a->size == 0)
+		stack_a->node = NULL;
 }
 
-void	rra_rule(t_node **head)
+void	rrb_rule(t_node **head)
 {
 	if (*head)
 		*head = (*head)->prev;
-	write(1, "rra\n", 4);
+	write(1, "rrb\n", 4);
 }
 
-void	ra_rule(t_node **head)
+void	rb_rule(t_node **head)
 {
 	if (*head)
 		*head = (*head)->next;
-	write(1, "ra\n", 3);
-}
-
-void	sa_rule(t_stack *stack_a)
-{
-	int	temp;
-
-	temp = stack_a->node->number;
-	stack_a->node->number = stack_a->node->next->number;
-	stack_a->node->next->number = temp;
-	write(1, "sa\n", 3);
+	write(1, "rb\n", 3);
 }

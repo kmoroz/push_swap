@@ -6,11 +6,11 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/10 14:03:29 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/13 10:53:48 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/13 13:26:02 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "./push_swap/push_swap.h"
 #include <stdlib.h>
 
 void	free_array(char **array, int size)

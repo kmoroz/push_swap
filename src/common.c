@@ -6,11 +6,11 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 15:34:50 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/13 11:04:05 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/13 13:25:47 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "./push_swap/push_swap.h"
 
 void	put_num_on_stack_reversed(int num, t_node **head)
 {

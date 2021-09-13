@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   checker.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2021/09/13 13:42:35 by ksmorozo      #+#    #+#                 */
+/*   Updated: 2021/09/13 14:00:43 by ksmorozo      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "checker.h"
-#include "../get_next_line/get_next_line.h"
+#include "../../get_next_line/get_next_line.h"
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -43,40 +55,6 @@ void	get_instructions(t_node	**instructions)
 		if (*line)
 			record_instruction(line, instructions);
 		free(line);
-	}
-}
-
-void	apply_instructions(t_node *instructions_head, t_stack *stack_a, t_stack *stack_b)
-{
-	t_node	*tail;
-	t_node	*temp;
-
-	tail = instructions_head->prev;
-	tail->next = NULL;		
-	temp = instructions_head;
-	while (temp)
-	{
-		if (temp->number == SA)
-			sa_rule(stack_a);
-		if (temp->number == SB)
-			sb_rule(stack_b);
-		if (temp->number == SS)
-			ss_rule(stack_a, stack_b);
-		if (temp->number == PA)
-			pa_rule(stack_a, stack_b, &stack_b->node);
-		if (temp->number == PB)
-			pb_rule(stack_a, stack_b, &stack_a->node);
-		if (temp->number == RA)
-			ra_rule(&stack_a->node);
-		if (temp->number == RB)
-			rb_rule(&stack_b->node);
-		if (temp->number == RR)
-			rr_rule(&stack_a->node, &stack_b->node);
-		if (temp->number == RRA)
-			rra_rule(&stack_a->node);
-		if (temp->number == RRB)
-			rrb_rule(&stack_b->node);
-		temp = temp->next;
 	}
 }
 

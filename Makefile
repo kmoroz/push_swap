@@ -2,21 +2,23 @@ PUSH_SWAP = push_swap
 CHECKER =  checker
 COMMON_SRC = src/stack_builder.c src/common.c \
 src/freeing.c
-SRC_PS = src/push_swap.c \
-src/sort.c \
-src/chunk_sort.c src/stack_a_instructions.c \
-src/stack_b_instructions.c src/sort_utils.c \
-src/chunk_sort_utils.c src/quicksort.c \
-src/sort_three.c $(COMMON_SRC)
-SRC_CHECKER = src/checker.c \
-src/instructions.c get_next_line/get_next_line.c \
+SRC_PS = src/push_swap/push_swap.c \
+src/push_swap/sort.c \
+src/push_swap/chunk_sort.c src/push_swap/stack_a_instructions.c \
+src/push_swap/stack_b_instructions.c src/push_swap/sort_utils.c \
+src/push_swap/chunk_sort_utils.c src/push_swap/quicksort.c \
+src/push_swap/sort_three.c $(COMMON_SRC)
+SRC_CHECKER = src/checker/checker.c \
+src/checker/stack_b_instructions.c get_next_line/get_next_line.c \
+src/checker/stack_a_instructions.c src/checker/common_instructions.c \
+src/checker/applying_instructions.c \
 $(COMMON_SRC)
 
 OBJ_PS = $(SRC_PS:.c=.o)
 OBJ_CHECKER = $(SRC_CHECKER:.c=.o)
 
-HEADER_PS = src/push_swap.h
-HEADER_CHECKER = src/checker.h
+HEADER_PS = src/push_swap/push_swap.h
+HEADER_CHECKER = src/checker/checker.h
 
 LIBFT_DIR = libft/
 LIBFT = libft.a

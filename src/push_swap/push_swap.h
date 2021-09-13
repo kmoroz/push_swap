@@ -6,14 +6,14 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 11:25:09 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/13 11:09:51 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/13 13:25:14 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include "../libft/libft.h"
+# include "../../libft/libft.h"
 
 # define SMALL_STACK 5
 

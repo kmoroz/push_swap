@@ -2,12 +2,14 @@ PUSH_SWAP = push_swap
 CHECKER =  checker
 COMMON_SRC = src/stack_builder.c src/common.c \
 src/freeing.c
+
 SRC_PS = src/push_swap/push_swap.c \
 src/push_swap/sort.c \
 src/push_swap/chunk_sort.c src/push_swap/stack_a_instructions.c \
 src/push_swap/stack_b_instructions.c src/push_swap/sort_utils.c \
 src/push_swap/chunk_sort_utils.c src/push_swap/quicksort.c \
 src/push_swap/sort_three.c $(COMMON_SRC)
+
 SRC_CHECKER = src/checker/checker.c \
 src/checker/stack_b_instructions.c get_next_line/get_next_line.c \
 src/checker/stack_a_instructions.c src/checker/common_instructions.c \
@@ -25,15 +27,16 @@ LIBFT = libft.a
 
 CFLAGS = -g -Wall -Werror -Wextra
 
-all: $(PUSH_SWAP) $(CHECKER)
+all: $(LIBFT) $(PUSH_SWAP) $(CHECKER)
 
-$(PUSH_SWAP): $(OBJ_PS)
+$(LIBFT):
 	@make --no-print-directory -C $(LIBFT_DIR)
+
+$(PUSH_SWAP): $(LIBFT) $(OBJ_PS)
 	@gcc $(CFLAGS) $(OBJ_PS) $(LIBFT_DIR)$(LIBFT) -o $(PUSH_SWAP)
 	@echo "\n\e[32m$@ built 📈\e[0m\n"
 
-$(CHECKER): $(OBJ_CHECKER)
-	@make --no-print-directory -C $(LIBFT_DIR)
+$(CHECKER): $(LIBFT) $(OBJ_CHECKER)
 	@gcc $(CFLAGS) $(OBJ_CHECKER) $(LIBFT_DIR)$(LIBFT) -o $(CHECKER)
 	@echo "\n\e[32m$@ built 📉\e[0m\n"
 

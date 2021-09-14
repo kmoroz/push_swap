@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 13:42:35 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/13 16:51:19 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/14 12:50:09 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,13 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-void	handle_invalid_instruction(t_stack *instructions, t_stack *stack_a)
+void	handle_invalid_instruction(t_stack *instructions,
+	t_stack *stack_a, char *line)
 {
 	free_node(&stack_a->node, stack_a->size);
+	count_stack_size(instructions, &instructions->node);
 	free_node(&instructions->node, instructions->size);
+	free(line);
 	ft_error();
 }
 
@@ -47,7 +50,7 @@ void	record_instruction(char *line, t_stack *instructions, t_stack *stack_a)
 	else if (!ft_strncmp("rrr", line, ft_strlen(line)))
 		put_num_on_stack(RRR, &instructions->node);
 	else
-		handle_invalid_instruction(instructions, stack_a);
+		handle_invalid_instruction(instructions, stack_a, line);
 }
 
 void	get_instructions(t_stack *stack_a, t_stack *instructions)
@@ -60,9 +63,15 @@ void	get_instructions(t_stack *stack_a, t_stack *instructions)
 	{
 		status = get_next_line(STDIN_FILENO, &line);
 		if (*line)
-			record_instruction(line, instructions, stack_a);
+		{
+			if (ft_strlen(line) == 1 || ft_strlen(line) >= 4)
+				handle_invalid_instruction(instructions, stack_a, line);
+			else
+				record_instruction(line, instructions, stack_a);
+		}
 		free(line);
 	}
+	count_stack_size(instructions, &instructions->node);
 }
 
 void	display_checker_status(t_stack *stack_a, t_stack *stack_b)
@@ -85,10 +94,10 @@ int	main(int argc, char **argv)
 		build_stack(argc, argv, &stack_a);
 		check_dupes(stack_a.node, stack_a.size);
 		get_instructions(&stack_a, &instructions);
-		count_stack_size(&instructions, &instructions.node);
 		apply_instructions(instructions.node, &stack_a, &stack_b);
 		display_checker_status(&stack_a, &stack_b);
 		free_node(&stack_a.node, stack_a.size);
+		free_node(&stack_b.node, stack_b.size);
 		free_node(&instructions.node, instructions.size);
 	}
 }

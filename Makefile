@@ -27,17 +27,18 @@ LIBFT = libft.a
 
 CFLAGS = -g -Wall -Werror -Wextra
 
-all: $(LIBFT) $(PUSH_SWAP) $(CHECKER)
+all: $(PUSH_SWAP) $(CHECKER)
 
 $(LIBFT):
 	@make --no-print-directory -C $(LIBFT_DIR)
+	@mv $(LIBFT_DIR)$(LIBFT) .
 
 $(PUSH_SWAP): $(LIBFT) $(OBJ_PS)
-	@gcc $(CFLAGS) $(OBJ_PS) $(LIBFT_DIR)$(LIBFT) -o $(PUSH_SWAP)
+	@gcc $(CFLAGS) $(OBJ_PS) $(LIBFT) -o $(PUSH_SWAP)
 	@echo "\n\e[32m$@ built 📈\e[0m\n"
 
 $(CHECKER): $(LIBFT) $(OBJ_CHECKER)
-	@gcc $(CFLAGS) $(OBJ_CHECKER) $(LIBFT_DIR)$(LIBFT) -o $(CHECKER)
+	@gcc $(CFLAGS) $(OBJ_CHECKER) $(LIBFT) -o $(CHECKER)
 	@echo "\n\e[32m$@ built 📉\e[0m\n"
 
 %.o: %.c $(HEADER_PS) $(HEADER_CHECKER)

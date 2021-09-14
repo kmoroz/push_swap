@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 15:34:50 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/13 16:25:51 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/14 14:16:25 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	put_num_on_stack_reversed(int num, t_node **head)
 	t_node	*new_node;
 
 	new_node = ft_lstnew(num);
+	if (!new_node)
+		ft_error();
 	if (!*head)
 	{
 		*head = new_node;

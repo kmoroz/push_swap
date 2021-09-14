@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 11:22:33 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/13 13:25:33 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/14 14:16:07 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	put_num_on_stack(int num, t_node **head)
 	t_node	*new_node;
 
 	new_node = ft_lstnew(num);
+	if (!new_node)
+		ft_error();
 	if (!*head)
 	{
 		*head = new_node;
@@ -105,6 +107,8 @@ void	build_stack(int argc, char **argv, t_stack *stack_a)
 	while (i < argc)
 	{
 		str = ft_split(argv[i], ' ');
+		if (!str)
+			ft_error();
 		array_size = calculate_array_size(str);
 		j = 0;
 		while (j < array_size)

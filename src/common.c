@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 15:34:50 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/14 14:16:25 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/14 15:38:24 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	make_list_linear(t_node *head)
 {
 	t_node	*tail;
 
+	if (!head)
+		return ;
 	tail = head->prev;
 	tail->next = NULL;
 }
@@ -66,6 +68,8 @@ void	make_list_circular(t_node *head)
 {
 	t_node	*tail;
 
+	if (!head)
+		return ;
 	tail = head->prev;
 	tail->next = head;
 }

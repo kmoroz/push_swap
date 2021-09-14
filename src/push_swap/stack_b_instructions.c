@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 12:02:19 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/13 13:30:05 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/14 13:24:03 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	pb_rule(t_stack *stack_a, t_stack *stack_b, t_node **head)
 	t_node	*current;
 	t_node	*tail;
 
-	if (!stack_a)
+	if (!stack_a->node)
 		return ;
 	current = *head;
 	tail = (*head)->prev;

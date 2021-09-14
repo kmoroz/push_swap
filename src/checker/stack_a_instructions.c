@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 14:03:34 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/13 14:03:36 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/14 13:25:10 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	pa_rule(t_stack *stack_a, t_stack *stack_b, t_node **head)
 	t_node	*tail;
 	t_node	*next_head;
 
+	if (!stack_b->node)
+		return ;
 	current = *head;
 	next_head = (*head)->next;
 	tail = (*head)->prev;
@@ -38,6 +40,8 @@ void	pa_rule(t_stack *stack_a, t_stack *stack_b, t_node **head)
 	(*head)->prev = tail;
 	stack_a->size++;
 	stack_b->size--;
+	if (stack_b->size == 0)
+		stack_b->node = NULL;
 }
 
 void	ra_rule(t_node **head)

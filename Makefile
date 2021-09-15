@@ -35,11 +35,11 @@ $(LIBFT):
 
 $(PUSH_SWAP): $(LIBFT) $(OBJ_PS)
 	@gcc $(CFLAGS) $(OBJ_PS) $(LIBFT) -o $(PUSH_SWAP)
-	@echo "\n\e[32m$@ built 📈\e[0m\n"
+	@echo "\n\033[92m $@ built 📈\033[0m\n"
 
 $(CHECKER): $(LIBFT) $(OBJ_CHECKER)
 	@gcc $(CFLAGS) $(OBJ_CHECKER) $(LIBFT) -o $(CHECKER)
-	@echo "\n\e[32m$@ built 📉\e[0m\n"
+	@echo "\n\033[92m $@ built 📉\033[0m\n"
 
 %.o: %.c $(HEADER_PS) $(HEADER_CHECKER)
 	@gcc $(CFLAGS) -c $< -o $@
@@ -47,11 +47,11 @@ $(CHECKER): $(LIBFT) $(OBJ_CHECKER)
 clean:
 	@rm -f $(OBJ_PS) $(OBJ_CHECKER) 
 	@make --no-print-directory clean -C $(LIBFT_DIR)
-	@echo "\n\e[31m object files removed 👋\e[0m\n"
+	@echo "\n\033[36m object files removed 👋\033[0m\n"
 
 fclean: clean
 	@rm -f $(PUSH_SWAP) $(CHECKER)
 	@rm -f $(LIBFT) $(LIBFT_DIR)$(LIBFT)
-	@echo "\n\e[31m executables removed 👋\e[0m\n"
+	@echo "\n\033[36m executables removed 👋\033[0m\n"
 
 re: fclean all

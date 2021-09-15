@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/10 14:03:29 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/13 13:26:02 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/15 13:58:20 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,6 @@ void	free_everything(char **array, int array_size,
 {
 	if (array)
 		free_array(array, array_size);
-	if (&stack->node)
+	if (stack->node)
 		free_node(&stack->node, stack->size);
 }

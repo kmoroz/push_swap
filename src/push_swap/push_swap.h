@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 11:25:09 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/13 15:59:23 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/16 09:14:25 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	quicksort(t_stack *stack_a, t_stack *stack_b);
 void	find_pivot(int size, t_node **head, int *pivot);
 int		vals_less_than_pivot_left(t_node **head, int pivot, int size);
 void	sort_three(t_stack *stack);
-// ------------------------------ common -----------------------------------
+/* ------------------------------ common ----------------------------------- */
 void	build_stack(int argc, char **argv, t_stack *stack_a);
 void	put_num_on_stack(int num, t_node **head);
 void	check_dupes(t_node *head, int size);

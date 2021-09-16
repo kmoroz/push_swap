@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 11:22:33 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/14 14:16:07 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/16 09:05:44 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ void	verify_input(const char *str, t_stack *stack_a, char **array, int size)
 	}
 	if (ft_strlen(str) == 1 && str[0] == '-')
 		error = true;
-	if (ft_strlen(str) > 10)
+	if (ft_strlen(str) > 11)
 		error = true;
-	if (ft_atol(str) > INT_MAX)
+	if (ft_atol(str) > INT_MAX || ft_atol(str) < INT_MIN)
 		error = true;
 	if (error == true)
 	{

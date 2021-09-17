@@ -6,7 +6,7 @@
 /*   By: ksmorozo <ksmorozo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/09 11:22:33 by ksmorozo      #+#    #+#                 */
-/*   Updated: 2021/09/16 09:05:44 by ksmorozo      ########   odam.nl         */
+/*   Updated: 2021/09/17 14:21:49 by ksmorozo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,13 @@ void	verify_input(const char *str, t_stack *stack_a, char **array, int size)
 	error = false;
 	while (str[count])
 	{
-		if (!ft_isdigit(str[count]) && str[count] != '-')
+		if ((!ft_isdigit(str[count]) && str[count] != '-')
+			|| str[count + 1] == '-')
 			error = true;
 		count++;
 	}
-	if (ft_strlen(str) == 1 && str[0] == '-')
+	if ((ft_strlen(str) == 1 && str[0] == '-')
+		|| (ft_strlen(str) > 1 && str[0] == '0'))
 		error = true;
 	if (ft_strlen(str) > 11)
 		error = true;
